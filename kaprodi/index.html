@@ -1,532 +1,719 @@
 <!DOCTYPE html>
 <html lang="id" class="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- favicon -->
-    <link rel="icon" type="image/png" href="/image/favicon.png">
+    <link rel="icon" type="image/png" href="/image/favicon.png" />
     <title>Dashboard Dosen - SIKAWAN</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            DEFAULT: '#435EBE',
-                            dark: '#364a96',
-                            light: '#5a75d4',
-                        },
-                        dark: {
-                            bg: '#0f172a',
-                            card: '#1e293b',
-                            border: '#334155',
-                        }
-                    },
-                    fontFamily: {
-                        inter: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                DEFAULT: "#435EBE",
+                dark: "#364a96",
+                light: "#5a75d4",
+              },
+              dark: {
+                bg: "#0f172a",
+                card: "#1e293b",
+                border: "#334155",
+              },
+            },
+            fontFamily: {
+              inter: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
     </script>
     <style>
-        /* Custom CSS untuk hal yang tidak bisa ditangani Tailwind */
-        .sidebar-menu::-webkit-scrollbar {
-            width: 5px;
-        }
-        .sidebar-menu::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-        }
-        .submenu {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-        .menu-item.open .submenu {
-            max-height: 500px;
-        }
-        .menu-item.open .arrow {
-            transform: rotate(90deg);
-        }
-        .welcome-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-        }
-        .welcome-card::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            right: 10%;
-            width: 200px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-        }
-        /* Dark mode toggle animation */
-        .dark-toggle {
-            transition: all 0.3s ease;
-        }
-        .dark-toggle:hover {
-            transform: rotate(15deg);
-        }
+      /* Custom CSS untuk hal yang tidak bisa ditangani Tailwind */
+      .sidebar-menu::-webkit-scrollbar {
+        width: 5px;
+      }
+      .sidebar-menu::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+      }
+      .submenu {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+      }
+      .menu-item.open .submenu {
+        max-height: 500px;
+      }
+      .menu-item.open .arrow {
+        transform: rotate(90deg);
+      }
+      .welcome-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 300px;
+        height: 300px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+      }
+      .welcome-card::after {
+        content: "";
+        position: absolute;
+        bottom: -30%;
+        right: 10%;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+      }
+      /* Dark mode toggle animation */
+      .dark-toggle {
+        transition: all 0.3s ease;
+      }
+      .dark-toggle:hover {
+        transform: rotate(15deg);
+      }
     </style>
-</head>
-<body class="font-inter bg-gray-50 dark:bg-dark-bg min-h-screen overflow-x-hidden transition-colors duration-300">
+  </head>
+  <body
+    class="font-inter bg-gray-50 dark:bg-dark-bg min-h-screen overflow-x-hidden transition-colors duration-300"
+  >
     <!-- Sidebar Overlay -->
-    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-[999] opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden"></div>
+    <div
+      id="sidebarOverlay"
+      class="fixed inset-0 bg-black/50 z-[999] opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden"
+    ></div>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed left-0 top-0 w-[280px] h-screen bg-gradient-to-b from-primary to-primary-dark z-[1000] transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col shadow-[4px_0_20px_rgba(67,94,190,0.2)] -translate-x-full lg:translate-x-0">
-        
-        <!-- Sidebar Header -->
-        <div class="p-5 flex items-center gap-3 border-b border-white/10">
-            <div class="w-11 h-11 bg-white rounded-xl flex items-center justify-center text-xl font-bold text-primary">
-                <i class="fa-solid fa-building-user"></i>
+    <aside
+      id="sidebar"
+      class="fixed left-0 top-0 w-[280px] h-screen bg-gradient-to-b from-primary to-primary-dark z-[1000] transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col shadow-[4px_0_20px_rgba(67,94,190,0.2)] -translate-x-full lg:translate-x-0"
+    >
+      <!-- Sidebar Header -->
+      <div class="p-5 flex items-center gap-3 border-b border-white/10">
+        <div
+          class="w-11 h-11 bg-white rounded-xl flex items-center justify-center text-xl font-bold text-primary"
+        >
+          <i class="fa-solid fa-building-user"></i>
+        </div>
+        <div class="text-white">
+          <h2 class="text-xl font-bold tracking-wide">SIKAWAN</h2>
+          <span class="text-xs opacity-80">Panel Kaprodi</span>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="sidebar-menu flex-1 overflow-y-auto py-5">
+        <!-- Menu Utama -->
+        <div class="px-4 mb-6">
+          <div
+            class="text-white/50 text-[0.7rem] font-semibold uppercase tracking-widest px-4 mb-3"
+          >
+            Menu Utama
+          </div>
+
+          <!-- Dashboard -->
+          <div class="menu-item">
+            <a
+              href="/kaprodi"
+              class="flex items-center gap-3.5 px-4 py-3.5 text-white/90 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white bg-white/15"
+            >
+              <i class="fas fa-home w-5 text-center text-lg"></i>
+              <span class="font-medium">Dashboard</span>
+            </a>
+          </div>
+
+          <!-- Sister Biodata -->
+          <div class="menu-item">
+            <div
+              onclick="toggleSubmenu(this)"
+              class="flex items-center gap-3.5 px-4 py-3.5 text-white/85 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white cursor-pointer"
+            >
+              <i class="fas fa-book w-5 text-center text-lg"></i>
+              <span class="font-medium">Sister Biodata</span>
+              <i
+                class="fas fa-chevron-right arrow ml-auto text-xs transition-transform duration-300"
+              ></i>
             </div>
-            <div class="text-white">
-                <h2 class="text-xl font-bold tracking-wide">SIKAWAN</h2>
-                <span class="text-xs opacity-80">Panel Kaprodi</span>
+            <div class="submenu bg-black/10 rounded-lg ml-5 my-1">
+              <a
+                href="/kaprodi/kualifikasi"
+                class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white"
+              >
+                <i class="fas fa-circle text-[0.4rem]"></i>
+                <span>Kualifikasi</span>
+              </a>
+              <a
+                href="/kaprodi/kompetensi"
+                class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white"
+              >
+                <i class="fas fa-circle text-[0.4rem]"></i>
+                <span>Kompetensi</span>
+              </a>
+              <a
+                href="/kaprodi/pelaksanaan-pengabdian"
+                class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white"
+              >
+                <i class="fas fa-circle text-[0.4rem]"></i>
+                <span>Pelaksanaan Pengabdian</span>
+              </a>
+              <a
+                href="/kaprodi/pelaksanaan-penelitian"
+                class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white"
+              >
+                <i class="fas fa-circle text-[0.4rem]"></i>
+                <span>Pelaksanaan Penelitian</span>
+              </a>
+              <a
+                href="/kaprodi/pelaksanaan-pendidikan"
+                class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white"
+              >
+                <i class="fas fa-circle text-[0.4rem]"></i>
+                <span>Pelaksanaan Pendidikan</span>
+              </a>
+              <a
+                href="/kaprodi/penunjang"
+                class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white"
+              >
+                <i class="fas fa-circle text-[0.4rem]"></i>
+                <span>Penunjang</span>
+              </a>
             </div>
+          </div>
+
+          <!-- Sister Dosen -->
+          <div class="menu-item">
+            <div
+              onclick="toggleSubmenu(this)"
+              class="flex items-center gap-3.5 px-4 py-3.5 text-white/85 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white cursor-pointer"
+            >
+              <i class="fas fa-users w-5 text-center text-lg"></i>
+              <span class="font-medium">Sister Dosen</span>
+              <i
+                class="fas fa-chevron-right arrow ml-auto text-xs transition-transform duration-300"
+              ></i>
+            </div>
+            <div class="submenu bg-black/10 rounded-lg ml-5 my-1">
+              <a
+                href="/kaprodi/daftar-sister-dosen"
+                class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white"
+              >
+                <i class="fas fa-circle text-[0.4rem]"></i>
+                <span>Daftar Sister Dosen</span>
+              </a>
+              <a
+                href="/kaprodi/penelitian-sister-dosen"
+                class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white"
+              >
+                <i class="fas fa-circle text-[0.4rem]"></i>
+                <span>Penelitian Sister Dosen</span>
+              </a>
+
+              <a
+                href="/kaprodi/pengabdian-sister-dosen"
+                class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white"
+              >
+                <i class="fas fa-circle text-[0.4rem]"></i>
+                <span>Pengabdian Sister Dosen</span>
+              </a>
+            </div>
+          </div>
         </div>
 
-        <!-- Sidebar Menu -->
-        <nav class="sidebar-menu flex-1 overflow-y-auto py-5">
-            
-            <!-- Menu Utama -->
-            <div class="px-4 mb-6">
-                <div class="text-white/50 text-[0.7rem] font-semibold uppercase tracking-widest px-4 mb-3">Menu Utama</div>
-                
-                <!-- Dashboard -->
-                <div class="menu-item">
-                    <a href="/kaprodi" class="flex items-center gap-3.5 px-4 py-3.5 text-white/90 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white bg-white/15">
-                        <i class="fas fa-home w-5 text-center text-lg"></i>
-                        <span class="font-medium">Dashboard</span>
-                    </a>
-                </div>
+        <!-- Menu Tambahan -->
+        <div class="px-4 mb-6">
+          <div
+            class="text-white/50 text-[0.7rem] font-semibold uppercase tracking-widest px-4 mb-3"
+          >
+            Menu Tambahan
+          </div>
 
-                <!-- Sister Biodata -->
-                <div class="menu-item">
-                    <div onclick="toggleSubmenu(this)" class="flex items-center gap-3.5 px-4 py-3.5 text-white/85 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white cursor-pointer">
-                        <i class="fas fa-book w-5 text-center text-lg"></i>
-                        <span class="font-medium">Sister Biodata</span>
-                        <i class="fas fa-chevron-right arrow ml-auto text-xs transition-transform duration-300"></i>
-                    </div>
-                    <div class="submenu bg-black/10 rounded-lg ml-5 my-1">
-                        <a href="/kaprodi/kualifikasi" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
-                            <i class="fas fa-circle text-[0.4rem]"></i>
-                            <span>Kualifikasi</span>
-                        </a>
-                        <a href="/kaprodi/kompetensi" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
-                            <i class="fas fa-circle text-[0.4rem]"></i>
-                            <span>Kompetensi</span>
-                        </a>
-                        <a href="/kaprodi/pelaksanaan-pengabdian" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
-                            <i class="fas fa-circle text-[0.4rem]"></i>
-                            <span>Pelaksanaan Pengabdian</span>
-                        </a>
-                        <a href="/kaprodi/pelaksanaan-penelitian" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
-                            <i class="fas fa-circle text-[0.4rem]"></i>
-                            <span>Pelaksanaan Penelitian</span>
-                        </a>
-                        <a href="/kaprodi/pelaksanaan-pendidikan" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
-                            <i class="fas fa-circle text-[0.4rem]"></i>
-                            <span>Pelaksanaan Pendidikan</span>
-                        </a>
-                        <a href="/kaprodi/penunjang" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
-                            <i class="fas fa-circle text-[0.4rem]"></i>
-                            <span>Penunjang</span>
-                        </a>
-                    </div>
-                </div>
+          <div class="menu-item">
+            <a
+              href="/kaprodi/rekognisi-dosen"
+              class="flex items-center gap-3.5 px-4 py-3.5 text-white/85 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white"
+            >
+              <i class="fa-solid fa-award w-5 text-center text-lg"></i>
+              <span class="font-medium">Rekognisi Dosen</span>
+            </a>
+          </div>
 
-                <!-- Sister Dosen -->
-                <div class="menu-item">
-                    <div onclick="toggleSubmenu(this)" class="flex items-center gap-3.5 px-4 py-3.5 text-white/85 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white cursor-pointer">
-                        <i class="fas fa-users w-5 text-center text-lg"></i>
-                        <span class="font-medium">Sister Dosen</span>
-                        <i class="fas fa-chevron-right arrow ml-auto text-xs transition-transform duration-300"></i>
-                    </div>
-                    <div class="submenu bg-black/10 rounded-lg ml-5 my-1">
-                        <a href="/kaprodi/daftar-sister-dosen" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
-                            <i class="fas fa-circle text-[0.4rem]"></i>
-                            <span>Daftar Sister Dosen</span>
-                        </a>
-                        <a href="/kaprodi/penelitian-sister-dosen" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
-                            <i class="fas fa-circle text-[0.4rem]"></i>
-                            <span>Penelitian Sister Dosen</span>
-                        </a>
-                        
-                        <a href="/kaprodi/pengabdian-sister-dosen" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
-                            <i class="fas fa-circle text-[0.4rem]"></i>
-                            <span>Pengabdian Sister Dosen</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Menu Tambahan -->
-            <div class="px-4 mb-6">
-                <div class="text-white/50 text-[0.7rem] font-semibold uppercase tracking-widest px-4 mb-3">Menu Tambahan</div>
-                
-                <div class="menu-item">
-                    <a href="/kaprodi/rekognisi-dosen" class="flex items-center gap-3.5 px-4 py-3.5 text-white/85 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white">
-                        <i class="fa-solid fa-award w-5 text-center text-lg"></i>
-                        <span class="font-medium">Rekognisi Dosen</span>
-                    </a>
-                </div>
-
-                <div class="menu-item">
-                    <a href="/kaprodi/penelitian-mandiri" class="flex items-center gap-3.5 px-4 py-3.5 text-white/85 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white">
-                        <i class="fa-brands fa-leanpub w-5 text-center text-lg"></i>
-                        <span class="font-medium">Penelitian Mandiri</span>
-                    </a>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Sidebar Footer -->
-        <div class="p-5 border-t border-white/10">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-white to-blue-100 rounded-full flex items-center justify-center text-primary font-semibold">
-                    DS
-                </div>
-                <div class="flex-1">
-                    <h4 class="text-white text-sm font-semibold">Dr. Sunanda</h4>
-                    <span class="text-white/60 text-xs">Kaprodi</span>
-                </div>
-                <button class="bg-white/10 hover:bg-white/20 text-white p-2.5 rounded-lg transition-all duration-300" title="Logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                </button>
-            </div>
+          <div class="menu-item">
+            <a
+              href="/kaprodi/penelitian-mandiri"
+              class="flex items-center gap-3.5 px-4 py-3.5 text-white/85 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white"
+            >
+              <i class="fa-brands fa-leanpub w-5 text-center text-lg"></i>
+              <span class="font-medium">Penelitian Mandiri</span>
+            </a>
+          </div>
         </div>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="p-5 border-t border-white/10">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 bg-gradient-to-br from-white to-blue-100 rounded-full flex items-center justify-center text-primary font-semibold"
+          >
+            DS
+          </div>
+          <div class="flex-1">
+            <h4 class="text-white text-sm font-semibold">Dr. Sunanda</h4>
+            <span class="text-white/60 text-xs">Kaprodi</span>
+          </div>
+          <button
+            class="bg-white/10 hover:bg-white/20 text-white p-2.5 rounded-lg transition-all duration-300"
+            title="Logout"
+          >
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
     </aside>
 
     <!-- Main Content -->
     <main class="lg:ml-[280px] min-h-screen transition-all duration-300">
-        
-        <!-- Header -->
-        <header class="bg-white dark:bg-dark-card h-[70px] px-5 lg:px-8 flex items-center justify-between shadow-sm dark:shadow-dark-border/20 sticky top-0 z-50 transition-colors duration-300">
-            <div class="flex items-center gap-5">
-                <button id="menuToggle" class="lg:hidden text-2xl text-gray-700 dark:text-gray-200 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-border transition-all duration-300">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div>
-                    <h1 class="text-lg lg:text-xl font-semibold text-gray-800 dark:text-white">Dashboard</h1>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 hidden sm:block">Selamat datang di Panel Kaprodi</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-3 lg:gap-5">
-                <!-- Dark Mode Toggle -->
-                <button id="darkModeToggle" class="dark-toggle w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-dark-border rounded-xl text-gray-700 dark:text-yellow-400 cursor-pointer transition-all duration-300 hover:bg-primary hover:text-white dark:hover:bg-primary">
-                    <i class="fas fa-moon dark:hidden"></i>
-                    <i class="fas fa-sun hidden dark:block"></i>
-                </button>
-                <div class="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-dark-border rounded-xl text-gray-700 dark:text-gray-200 cursor-pointer transition-all duration-300 hover:bg-primary hover:text-white">
-                    <i class="fas fa-search"></i>
-                </div>
-                <div class="relative w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-dark-border rounded-xl text-gray-700 dark:text-gray-200 cursor-pointer transition-all duration-300 hover:bg-primary hover:text-white">
-                    <i class="fas fa-bell"></i>
-                    <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[0.6rem] rounded-full flex items-center justify-center font-semibold">3</span>
-                </div>
-                <div class="relative w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-dark-border rounded-xl text-gray-700 dark:text-gray-200 cursor-pointer transition-all duration-300 hover:bg-primary hover:text-white">
-                    <i class="fas fa-envelope"></i>
-                    <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[0.6rem] rounded-full flex items-center justify-center font-semibold">5</span>
-                </div>
-            </div>
-        </header>
-
-        <!-- Dashboard Content -->
-        <div class="p-4 lg:p-8">
-            
-            <!-- Welcome Card -->
-            <div class="welcome-card bg-gradient-to-r from-primary to-primary-dark rounded-2xl p-6 lg:p-10 text-white relative overflow-hidden mb-6 lg:mb-8">
-                <h2 class="text-xl lg:text-2xl font-bold mb-2 relative z-10">Selamat Datang, Dr. Sunanda!</h2>
-                <p class="opacity-90 text-sm lg:text-base relative z-10">Anda belum melakukan penelitian tahun ini, silahkan lakukan penelitian</p>
-            </div>
-
-            <!-- Stats Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
-                
-                <!-- Stat Card 1 -->
-                <div class="bg-white dark:bg-dark-card rounded-2xl p-5 lg:p-6 shadow-sm dark:shadow-none dark:border dark:border-dark-border hover:shadow-lg dark:hover:border-primary/50 hover:-translate-y-1 transition-all duration-300">
-                    <div class="flex items-center justify-between mb-5">
-                        <div class="w-12 h-12 rounded-xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary text-xl">
-                            <i class="fas fa-user-graduate"></i>
-                        </div>
-                    </div>
-                    <h3 class="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white mb-1">120</h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm">Total Dosen</p>
-                </div>
-
-                <!-- Stat Card 2 -->
-                <div class="bg-white dark:bg-dark-card rounded-2xl p-5 lg:p-6 shadow-sm dark:shadow-none dark:border dark:border-dark-border hover:shadow-lg dark:hover:border-green-500/50 hover:-translate-y-1 transition-all duration-300">
-                    <div class="flex items-center justify-between mb-5">
-                        <div class="w-12 h-12 rounded-xl bg-green-500/10 dark:bg-green-500/20 flex items-center justify-center text-green-500 text-xl">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                    </div>
-                    <h3 class="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white mb-1">245</h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm">Total Tendik</p>
-                </div>
-
-                <!-- Stat Card 3 -->
-                <div class="bg-white dark:bg-dark-card rounded-2xl p-5 lg:p-6 shadow-sm dark:shadow-none dark:border dark:border-dark-border hover:shadow-lg dark:hover:border-yellow-500/50 hover:-translate-y-1 transition-all duration-300">
-                    <div class="flex items-center justify-between mb-5">
-                        <div class="w-12 h-12 rounded-xl bg-yellow-500/10 dark:bg-yellow-500/20 flex items-center justify-center text-yellow-500 text-xl">
-                            <i class="fas fa-user-friends"></i>
-                        </div>
-                    </div>
-                    <h3 class="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white mb-1">365</h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm">Pegawai Aktif</p>
-                </div>
-            </div>
-            
-            <!-- Chart Section -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mt-6 lg:mt-8">
-                
-                <!-- Penelitian Per Tahun Chart -->
-                <div class="bg-white dark:bg-dark-card rounded-2xl p-5 lg:p-6 shadow-sm dark:shadow-none dark:border dark:border-dark-border">
-                    <div class="flex items-center justify-between mb-6">
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Total Penelitian</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Statistik penelitian per tahun</p>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="w-3 h-3 rounded-full bg-primary"></span>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Penelitian</span>
-                        </div>
-                    </div>
-                    <div class="relative h-[300px]">
-                        <canvas id="penelitianChart"></canvas>
-                    </div>
-                    <div class="mt-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-800/30">
-                        <div class="flex items-start gap-3">
-                            <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/25">
-                                <i class="fa-solid fa-lightbulb text-white text-lg"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-sm font-semibold text-blue-800 dark:text-blue-300 mb-1">Insight Tahun 2024</h4>
-                                <p class="text-sm text-blue-700 dark:text-blue-400 leading-relaxed">
-                                    Jumlah penelitian yang telah dilakukan oleh dosen Program Studi Teknik Informatika adalah sebanyak <span class="font-bold">5 penelitian</span>.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pengabdian Per Tahun Chart -->
-                <div class="bg-white dark:bg-dark-card rounded-2xl p-5 lg:p-6 shadow-sm dark:shadow-none dark:border dark:border-dark-border">
-                    <div class="flex items-center justify-between mb-6">
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Total Pengabdian</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Statistik pengabdian per tahun</p>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Pengabdian</span>
-                        </div>
-                    </div>
-                    <div class="relative h-[300px]">
-                        <canvas id="pengabdianChart"></canvas>
-                    </div>
-                    <div class="mt-6 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-4 rounded-xl border border-green-100 dark:border-green-800/30">
-                        <div class="flex items-start gap-3">
-                            <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center shadow-lg shadow-green-500/25">
-                                <i class="fa-solid fa-lightbulb text-white text-lg"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-sm font-semibold text-green-800 dark:text-green-300 mb-1">Insight Tahun 2024</h4>
-                                <p class="text-sm text-green-700 dark:text-green-400 leading-relaxed">
-                                    Jumlah pengabdian yang telah dilakukan oleh dosen Program Studi Teknik Informatika adalah sebanyak <span class="font-bold">3 pengabdian</span>.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+      <!-- Header -->
+      <header
+        class="bg-white dark:bg-dark-card h-[70px] px-5 lg:px-8 flex items-center justify-between shadow-sm dark:shadow-dark-border/20 sticky top-0 z-50 transition-colors duration-300"
+      >
+        <div class="flex items-center gap-5">
+          <button
+            id="menuToggle"
+            class="lg:hidden text-2xl text-gray-700 dark:text-gray-200 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-border transition-all duration-300"
+          >
+            <i class="fas fa-bars"></i>
+          </button>
+          <div>
+            <h1
+              class="text-lg lg:text-xl font-semibold text-gray-800 dark:text-white"
+            >
+              Dashboard
+            </h1>
+            <p class="text-sm text-gray-500 dark:text-gray-400 hidden sm:block">
+              Selamat datang di Panel Kaprodi
+            </p>
+          </div>
         </div>
+        <div class="flex items-center gap-3 lg:gap-5">
+          <!-- Dark Mode Toggle -->
+          <button
+            id="darkModeToggle"
+            class="dark-toggle w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-dark-border rounded-xl text-gray-700 dark:text-yellow-400 cursor-pointer transition-all duration-300 hover:bg-primary hover:text-white dark:hover:bg-primary"
+          >
+            <i class="fas fa-moon dark:hidden"></i>
+            <i class="fas fa-sun hidden dark:block"></i>
+          </button>
+          <div
+            class="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-dark-border rounded-xl text-gray-700 dark:text-gray-200 cursor-pointer transition-all duration-300 hover:bg-primary hover:text-white"
+          >
+            <i class="fas fa-search"></i>
+          </div>
+          <div
+            class="relative w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-dark-border rounded-xl text-gray-700 dark:text-gray-200 cursor-pointer transition-all duration-300 hover:bg-primary hover:text-white"
+          >
+            <i class="fas fa-bell"></i>
+            <span
+              class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[0.6rem] rounded-full flex items-center justify-center font-semibold"
+              >3</span
+            >
+          </div>
+          <div
+            class="relative w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-dark-border rounded-xl text-gray-700 dark:text-gray-200 cursor-pointer transition-all duration-300 hover:bg-primary hover:text-white"
+          >
+            <i class="fas fa-envelope"></i>
+            <span
+              class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[0.6rem] rounded-full flex items-center justify-center font-semibold"
+              >5</span
+            >
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Content -->
+      <div class="p-4 lg:p-8">
+        <!-- Welcome Card -->
+        <div
+          class="welcome-card bg-gradient-to-r from-primary to-primary-dark rounded-2xl p-6 lg:p-10 text-white relative overflow-hidden mb-6 lg:mb-8"
+        >
+          <h2 class="text-xl lg:text-2xl font-bold mb-2 relative z-10">
+            Selamat Datang, Dr. Sunanda!
+          </h2>
+          <p class="opacity-90 text-sm lg:text-base relative z-10">
+            Anda belum melakukan penelitian tahun ini, silahkan lakukan
+            penelitian
+          </p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6"
+        >
+          <!-- Stat Card 1 -->
+          <div
+            class="bg-white dark:bg-dark-card rounded-2xl p-5 lg:p-6 shadow-sm dark:shadow-none dark:border dark:border-dark-border hover:shadow-lg dark:hover:border-primary/50 hover:-translate-y-1 transition-all duration-300"
+          >
+            <div class="flex items-center justify-between mb-5">
+              <div
+                class="w-12 h-12 rounded-xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary text-xl"
+              >
+                <i class="fas fa-user-graduate"></i>
+              </div>
+            </div>
+            <h3
+              class="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white mb-1"
+            >
+              120
+            </h3>
+            <p class="text-gray-500 dark:text-gray-400 text-sm">Total Dosen</p>
+          </div>
+
+          <!-- Stat Card 2 -->
+          <div
+            class="bg-white dark:bg-dark-card rounded-2xl p-5 lg:p-6 shadow-sm dark:shadow-none dark:border dark:border-dark-border hover:shadow-lg dark:hover:border-green-500/50 hover:-translate-y-1 transition-all duration-300"
+          >
+            <div class="flex items-center justify-between mb-5">
+              <div
+                class="w-12 h-12 rounded-xl bg-green-500/10 dark:bg-green-500/20 flex items-center justify-center text-green-500 text-xl"
+              >
+                <i class="fas fa-user-tie"></i>
+              </div>
+            </div>
+            <h3
+              class="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white mb-1"
+            >
+              245
+            </h3>
+            <p class="text-gray-500 dark:text-gray-400 text-sm">Total Tendik</p>
+          </div>
+
+          <!-- Stat Card 3 -->
+          <div
+            class="bg-white dark:bg-dark-card rounded-2xl p-5 lg:p-6 shadow-sm dark:shadow-none dark:border dark:border-dark-border hover:shadow-lg dark:hover:border-yellow-500/50 hover:-translate-y-1 transition-all duration-300"
+          >
+            <div class="flex items-center justify-between mb-5">
+              <div
+                class="w-12 h-12 rounded-xl bg-yellow-500/10 dark:bg-yellow-500/20 flex items-center justify-center text-yellow-500 text-xl"
+              >
+                <i class="fas fa-user-friends"></i>
+              </div>
+            </div>
+            <h3
+              class="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white mb-1"
+            >
+              365
+            </h3>
+            <p class="text-gray-500 dark:text-gray-400 text-sm">
+              Pegawai Aktif
+            </p>
+          </div>
+        </div>
+
+        <!-- Chart Section -->
+        <div
+          class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mt-6 lg:mt-8"
+        >
+          <!-- Penelitian Per Tahun Chart -->
+          <div
+            class="bg-white dark:bg-dark-card rounded-2xl p-5 lg:p-6 shadow-sm dark:shadow-none dark:border dark:border-dark-border"
+          >
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
+                  Total Penelitian
+                </h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Statistik penelitian per tahun
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-primary"></span>
+                <span class="text-sm text-gray-500 dark:text-gray-400"
+                  >Penelitian</span
+                >
+              </div>
+            </div>
+            <div class="relative h-[300px]">
+              <canvas id="penelitianChart"></canvas>
+            </div>
+            <div
+              class="mt-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-800/30"
+            >
+              <div class="flex items-start gap-3">
+                <div
+                  class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/25"
+                >
+                  <i class="fa-solid fa-lightbulb text-white text-lg"></i>
+                </div>
+                <div>
+                  <h4
+                    class="text-sm font-semibold text-blue-800 dark:text-blue-300 mb-1"
+                  >
+                    Insight Tahun 2024
+                  </h4>
+                  <p
+                    class="text-sm text-blue-700 dark:text-blue-400 leading-relaxed"
+                  >
+                    Jumlah penelitian yang telah dilakukan oleh dosen Program
+                    Studi Teknik Informatika adalah sebanyak
+                    <span class="font-bold">5 penelitian</span>.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pengabdian Per Tahun Chart -->
+          <div
+            class="bg-white dark:bg-dark-card rounded-2xl p-5 lg:p-6 shadow-sm dark:shadow-none dark:border dark:border-dark-border"
+          >
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
+                  Total Pengabdian
+                </h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Statistik pengabdian per tahun
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                <span class="text-sm text-gray-500 dark:text-gray-400"
+                  >Pengabdian</span
+                >
+              </div>
+            </div>
+            <div class="relative h-[300px]">
+              <canvas id="pengabdianChart"></canvas>
+            </div>
+            <div
+              class="mt-6 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-4 rounded-xl border border-green-100 dark:border-green-800/30"
+            >
+              <div class="flex items-start gap-3">
+                <div
+                  class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center shadow-lg shadow-green-500/25"
+                >
+                  <i class="fa-solid fa-lightbulb text-white text-lg"></i>
+                </div>
+                <div>
+                  <h4
+                    class="text-sm font-semibold text-green-800 dark:text-green-300 mb-1"
+                  >
+                    Insight Tahun 2024
+                  </h4>
+                  <p
+                    class="text-sm text-green-700 dark:text-green-400 leading-relaxed"
+                  >
+                    Jumlah pengabdian yang telah dilakukan oleh dosen Program
+                    Studi Teknik Informatika adalah sebanyak
+                    <span class="font-bold">3 pengabdian</span>.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <script>
-        // Dark Mode Toggle
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const html = document.documentElement;
+      // Dark Mode Toggle
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const html = document.documentElement;
 
-        // Check for saved preference or system preference
-        function initDarkMode() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                html.classList.remove('light');
-                html.classList.add('dark');
-            } else {
-                html.classList.remove('dark');
-                html.classList.add('light');
-            }
+      // Check for saved preference or system preference
+      function initDarkMode() {
+        const savedTheme = localStorage.getItem("theme");
+        if (
+          savedTheme === "dark" ||
+          (!savedTheme &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          html.classList.remove("light");
+          html.classList.add("dark");
+        } else {
+          html.classList.remove("dark");
+          html.classList.add("light");
         }
+      }
 
-        // Toggle dark mode
-        darkModeToggle.addEventListener('click', () => {
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                html.classList.add('light');
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.classList.remove('light');
-                html.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        });
-
-        // Initialize dark mode on page load
-        initDarkMode();
-
-        // Toggle Sidebar for Mobile
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
-
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('-translate-x-full');
-            sidebar.classList.toggle('translate-x-0');
-            sidebarOverlay.classList.toggle('opacity-0');
-            sidebarOverlay.classList.toggle('opacity-100');
-            sidebarOverlay.classList.toggle('pointer-events-none');
-            sidebarOverlay.classList.toggle('pointer-events-auto');
-            document.body.style.overflow = sidebar.classList.contains('translate-x-0') ? 'hidden' : '';
-        });
-
-        sidebarOverlay.addEventListener('click', () => {
-            sidebar.classList.add('-translate-x-full');
-            sidebar.classList.remove('translate-x-0');
-            sidebarOverlay.classList.add('opacity-0', 'pointer-events-none');
-            sidebarOverlay.classList.remove('opacity-100', 'pointer-events-auto');
-            document.body.style.overflow = '';
-        });
-
-        // Toggle Submenu
-        function toggleSubmenu(element) {
-            const menuItem = element.parentElement;
-            const isOpen = menuItem.classList.contains('open');
-            
-            // Close all other submenus
-            document.querySelectorAll('.menu-item.open').forEach(item => {
-                if (item !== menuItem) {
-                    item.classList.remove('open');
-                }
-            });
-            
-            // Toggle current submenu
-            menuItem.classList.toggle('open');
+      // Toggle dark mode
+      darkModeToggle.addEventListener("click", () => {
+        if (html.classList.contains("dark")) {
+          html.classList.remove("dark");
+          html.classList.add("light");
+          localStorage.setItem("theme", "light");
+        } else {
+          html.classList.remove("light");
+          html.classList.add("dark");
+          localStorage.setItem("theme", "dark");
         }
+      });
 
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 1024) {
-                sidebar.classList.remove('translate-x-0');
-                sidebar.classList.add('-translate-x-full');
-                sidebar.classList.remove('-translate-x-full');
-                sidebarOverlay.classList.add('opacity-0', 'pointer-events-none');
-                sidebarOverlay.classList.remove('opacity-100', 'pointer-events-auto');
-                document.body.style.overflow = '';
-            }
+      // Initialize dark mode on page load
+      initDarkMode();
+
+      // Toggle Sidebar for Mobile
+      const menuToggle = document.getElementById("menuToggle");
+      const sidebar = document.getElementById("sidebar");
+      const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+      menuToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("-translate-x-full");
+        sidebar.classList.toggle("translate-x-0");
+        sidebarOverlay.classList.toggle("opacity-0");
+        sidebarOverlay.classList.toggle("opacity-100");
+        sidebarOverlay.classList.toggle("pointer-events-none");
+        sidebarOverlay.classList.toggle("pointer-events-auto");
+        document.body.style.overflow = sidebar.classList.contains(
+          "translate-x-0"
+        )
+          ? "hidden"
+          : "";
+      });
+
+      sidebarOverlay.addEventListener("click", () => {
+        sidebar.classList.add("-translate-x-full");
+        sidebar.classList.remove("translate-x-0");
+        sidebarOverlay.classList.add("opacity-0", "pointer-events-none");
+        sidebarOverlay.classList.remove("opacity-100", "pointer-events-auto");
+        document.body.style.overflow = "";
+      });
+
+      // Toggle Submenu
+      function toggleSubmenu(element) {
+        const menuItem = element.parentElement;
+        const isOpen = menuItem.classList.contains("open");
+
+        // Close all other submenus
+        document.querySelectorAll(".menu-item.open").forEach((item) => {
+          if (item !== menuItem) {
+            item.classList.remove("open");
+          }
         });
 
-        // Chart Configuration
-        const chartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    padding: 12,
-                    titleFont: {
-                        size: 14,
-                        weight: 'bold'
-                    },
-                    bodyFont: {
-                        size: 13
-                    },
-                    cornerRadius: 8
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
-                    },
-                    ticks: {
-                        font: {
-                            size: 12
-                        }
-                    }
-                },
-                x: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        font: {
-                            size: 12
-                        }
-                    }
-                }
-            }
-        };
+        // Toggle current submenu
+        menuItem.classList.toggle("open");
+      }
 
-        // Penelitian Chart
-        const penelitianCtx = document.getElementById('penelitianChart').getContext('2d');
-        new Chart(penelitianCtx, {
-            type: 'bar',
-            data: {
-                labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
-                datasets: [{
-                    label: 'Jumlah Penelitian',
-                    data: [8, 12, 15, 10, 18, 5],
-                    backgroundColor: 'rgba(67, 94, 190, 0.8)',
-                    borderColor: '#435EBE',
-                    borderWidth: 2,
-                    borderRadius: 8,
-                    borderSkipped: false,
-                }]
-            },
-            options: chartOptions
-        });
+      // Handle window resize
+      window.addEventListener("resize", () => {
+        if (window.innerWidth >= 1024) {
+          sidebar.classList.remove("translate-x-0");
+          sidebar.classList.add("-translate-x-full");
+          sidebar.classList.remove("-translate-x-full");
+          sidebarOverlay.classList.add("opacity-0", "pointer-events-none");
+          sidebarOverlay.classList.remove("opacity-100", "pointer-events-auto");
+          document.body.style.overflow = "";
+        }
+      });
 
-        // Pengabdian Chart
-        const pengabdianCtx = document.getElementById('pengabdianChart').getContext('2d');
-        new Chart(pengabdianCtx, {
-            type: 'bar',
-            data: {
-                labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
-                datasets: [{
-                    label: 'Jumlah Pengabdian',
-                    data: [5, 8, 12, 9, 14, 3],
-                    backgroundColor: 'rgba(34, 197, 94, 0.8)',
-                    borderColor: '#22C55E',
-                    borderWidth: 2,
-                    borderRadius: 8,
-                    borderSkipped: false,
-                }]
+      // Chart Configuration
+      const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            padding: 12,
+            titleFont: {
+              size: 14,
+              weight: "bold",
             },
-            options: chartOptions
-        });
+            bodyFont: {
+              size: 13,
+            },
+            cornerRadius: 8,
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: "rgba(0, 0, 0, 0.05)",
+            },
+            ticks: {
+              font: {
+                size: 12,
+              },
+            },
+          },
+          x: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              font: {
+                size: 12,
+              },
+            },
+          },
+        },
+      };
+
+      // Penelitian Chart
+      const penelitianCtx = document
+        .getElementById("penelitianChart")
+        .getContext("2d");
+      new Chart(penelitianCtx, {
+        type: "bar",
+        data: {
+          labels: ["2020", "2021", "2022", "2023", "2024", "2025"],
+          datasets: [
+            {
+              label: "Jumlah Penelitian",
+              data: [8, 12, 15, 10, 18, 5],
+              backgroundColor: "rgba(67, 94, 190, 0.8)",
+              borderColor: "#435EBE",
+              borderWidth: 2,
+              borderRadius: 8,
+              borderSkipped: false,
+            },
+          ],
+        },
+        options: chartOptions,
+      });
+
+      // Pengabdian Chart
+      const pengabdianCtx = document
+        .getElementById("pengabdianChart")
+        .getContext("2d");
+      new Chart(pengabdianCtx, {
+        type: "bar",
+        data: {
+          labels: ["2020", "2021", "2022", "2023", "2024", "2025"],
+          datasets: [
+            {
+              label: "Jumlah Pengabdian",
+              data: [5, 8, 12, 9, 14, 3],
+              backgroundColor: "rgba(34, 197, 94, 0.8)",
+              borderColor: "#22C55E",
+              borderWidth: 2,
+              borderRadius: 8,
+              borderSkipped: false,
+            },
+          ],
+        },
+        options: chartOptions,
+      });
     </script>
-</body>
+  </body>
 </html>
