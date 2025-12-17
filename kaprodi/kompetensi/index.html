@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- favicon -->
+    <link rel="icon" type="image/png" href="/image/favicon.png">
+    <title>Dashboard Dosen - SIKAWAN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#435EBE',
+                            dark: '#364a96',
+                            light: '#5a75d4',
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155',
+                        }
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom CSS untuk hal yang tidak bisa ditangani Tailwind */
+        .sidebar-menu::-webkit-scrollbar {
+            width: 5px;
+        }
+        .sidebar-menu::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .menu-item.open .submenu {
+            max-height: 500px;
+        }
+        .menu-item.open .arrow {
+            transform: rotate(90deg);
+        }
+        .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        .welcome-card::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            right: 10%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        /* Dark mode toggle animation */
+        .dark-toggle {
+            transition: all 0.3s ease;
+        }
+        .dark-toggle:hover {
+            transform: rotate(15deg);
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50 dark:bg-dark-bg min-h-screen overflow-x-hidden transition-colors duration-300">
+    <!-- Sidebar Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-[999] opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed left-0 top-0 w-[280px] h-screen bg-gradient-to-b from-primary to-primary-dark z-[1000] transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col shadow-[4px_0_20px_rgba(67,94,190,0.2)] -translate-x-full lg:translate-x-0">
+        
+        <!-- Sidebar Header -->
+        <div class="p-5 flex items-center gap-3 border-b border-white/10">
+            <div class="w-11 h-11 bg-white rounded-xl flex items-center justify-center text-xl font-bold text-primary">
+                <i class="fa-solid fa-building-user"></i>
+            </div>
+            <div class="text-white">
+                <h2 class="text-xl font-bold tracking-wide">SIKAWAN</h2>
+                <span class="text-xs opacity-80">Panel Kaprodi</span>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="sidebar-menu flex-1 overflow-y-auto py-5">
+            
+            <!-- Menu Utama -->
+            <div class="px-4 mb-6">
+                <div class="text-white/50 text-[0.7rem] font-semibold uppercase tracking-widest px-4 mb-3">Menu Utama</div>
+                
+                <!-- Dashboard -->
+                <div class="menu-item">
+                    <a href="/kaprodi" class="flex items-center gap-3.5 px-4 py-3.5 text-white/90 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white">
+                        <i class="fas fa-home w-5 text-center text-lg"></i>
+                        <span class="font-medium">Dashboard</span>
+                    </a>
+                </div>
+
+                <!-- Sister Biodata -->
+                <div class="menu-item open">
+                    <div onclick="toggleSubmenu(this)" class="flex items-center gap-3.5 px-4 py-3.5 text-white/85 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white cursor-pointer">
+                        <i class="fas fa-book w-5 text-center text-lg"></i>
+                        <span class="font-medium">Sister Biodata</span>
+                        <i class="fas fa-chevron-right arrow ml-auto text-xs transition-transform duration-300"></i>
+                    </div>
+                    <div class="submenu bg-black/10 rounded-lg ml-5 my-1">
+                        <a href="/kaprodi/kualifikasi" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
+                            <i class="fas fa-circle text-[0.4rem]"></i>
+                            <span>Kualifikasi</span>
+                        </a>
+                        <a href="/kaprodi/kompetensi" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white bg-white/15">
+                            <i class="fas fa-circle text-[0.4rem]"></i>
+                            <span>Kompetensi</span>
+                        </a>
+                        <a href="/kaprodi/pelaksanaan-pengabdian" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
+                            <i class="fas fa-circle text-[0.4rem]"></i>
+                            <span>Pelaksanaan Pengabdian</span>
+                        </a>
+                        <a href="/kaprodi/pelaksanaan-penelitian" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
+                            <i class="fas fa-circle text-[0.4rem]"></i>
+                            <span>Pelaksanaan Penelitian</span>
+                        </a>
+                        <a href="/kaprodi/pelaksanaan-pendidikan" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
+                            <i class="fas fa-circle text-[0.4rem]"></i>
+                            <span>Pelaksanaan Pendidikan</span>
+                        </a>
+                        <a href="/kaprodi/penunjang" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
+                            <i class="fas fa-circle text-[0.4rem]"></i>
+                            <span>Penunjang</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Sister Dosen -->
+                <div class="menu-item">
+                    <div onclick="toggleSubmenu(this)" class="flex items-center gap-3.5 px-4 py-3.5 text-white/85 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white cursor-pointer">
+                        <i class="fas fa-users w-5 text-center text-lg"></i>
+                        <span class="font-medium">Sister Dosen</span>
+                        <i class="fas fa-chevron-right arrow ml-auto text-xs transition-transform duration-300"></i>
+                    </div>
+                    <div class="submenu bg-black/10 rounded-lg ml-5 my-1">
+                        <a href="/kaprodi/daftar-sister-dosen" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
+                            <i class="fas fa-circle text-[0.4rem]"></i>
+                            <span>Daftar Sister Dosen</span>
+                        </a>
+                        <a href="/kaprodi/penelitian-sister-dosen" class="flex items-center gap-3 px-4 py-3 text-white/70 text-sm transition-all duration-300 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white">
+                            <i class="fas fa-circle text-[0.4rem]"></i>
+                            <span>Penelitian Sister Dosen</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu Tambahan -->
+            <div class="px-4 mb-6">
+                <div class="text-white/50 text-[0.7rem] font-semibold uppercase tracking-widest px-4 mb-3">Menu Tambahan</div>
+                
+                <div class="menu-item">
+                    <a href="/kaprodi/rekognisi-dosen" class="flex items-center gap-3.5 px-4 py-3.5 text-white/85 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white">
+                        <i class="fa-solid fa-award w-5 text-center text-lg"></i>
+                        <span class="font-medium">Rekognisi Dosen</span>
+                    </a>
+                </div>
+
+                <div class="menu-item">
+                    <a href="/kaprodi/penelitian-mandiri" class="flex items-center gap-3.5 px-4 py-3.5 text-white/85 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white">
+                        <i class="fa-brands fa-leanpub w-5 text-center text-lg"></i>
+                        <span class="font-medium">Penelitian Mandiri</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Sidebar Footer -->
+        <div class="p-5 border-t border-white/10">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-white to-blue-100 rounded-full flex items-center justify-center text-primary font-semibold">
+                    DS
+                </div>
+                <div class="flex-1">
+                    <h4 class="text-white text-sm font-semibold">Dr. Sunanda</h4>
+                    <span class="text-white/60 text-xs">Kaprodi</span>
+                </div>
+                <button class="bg-white/10 hover:bg-white/20 text-white p-2.5 rounded-lg transition-all duration-300" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="lg:ml-[280px] min-h-screen transition-all duration-300">
+        
+        <!-- Header -->
+        <header class="bg-white dark:bg-dark-card h-[70px] px-5 lg:px-8 flex items-center justify-between shadow-sm dark:shadow-dark-border/20 sticky top-0 z-50 transition-colors duration-300">
+            <div class="flex items-center gap-5">
+                <button id="menuToggle" class="lg:hidden text-2xl text-gray-700 dark:text-gray-200 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-border transition-all duration-300">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div>
+                    <h1 class="text-lg lg:text-xl font-semibold text-gray-800 dark:text-white">Kompetensi</h1>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 lg:gap-5">
+                <!-- Dark Mode Toggle -->
+                <button id="darkModeToggle" class="dark-toggle w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-dark-border rounded-xl text-gray-700 dark:text-yellow-400 cursor-pointer transition-all duration-300 hover:bg-primary hover:text-white dark:hover:bg-primary">
+                    <i class="fas fa-moon dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:block"></i>
+                </button>
+                <div class="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-dark-border rounded-xl text-gray-700 dark:text-gray-200 cursor-pointer transition-all duration-300 hover:bg-primary hover:text-white">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="relative w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-dark-border rounded-xl text-gray-700 dark:text-gray-200 cursor-pointer transition-all duration-300 hover:bg-primary hover:text-white">
+                    <i class="fas fa-bell"></i>
+                    <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[0.6rem] rounded-full flex items-center justify-center font-semibold">3</span>
+                </div>
+                <div class="relative w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-dark-border rounded-xl text-gray-700 dark:text-gray-200 cursor-pointer transition-all duration-300 hover:bg-primary hover:text-white">
+                    <i class="fas fa-envelope"></i>
+                    <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[0.6rem] rounded-full flex items-center justify-center font-semibold">5</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="p-4 lg:p-8">
+
+            <!-- Tab Navigation -->
+            <div class="bg-white dark:bg-dark-card rounded-md shadow-sm dark:shadow-none dark:border dark:border-dark-border overflow-hidden">
+                <!-- Tab Headers -->
+                <div class="border-b border-gray-200 dark:border-dark-border">
+                    <ul class="flex flex-wrap -mb-px">
+                        <li>
+                            <button onclick="switchTab('sertifikasi')" id="tab-sertifikasi" class="tab-btn active inline-flex items-center gap-2 px-6 py-4 text-sm font-medium border-b-2 border-primary text-primary dark:text-primary-light transition-all duration-300">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Sertifikasi</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="switchTab('tes')" id="tab-tes" class="tab-btn inline-flex items-center gap-2 px-6 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-primary hover:border-gray-300 dark:hover:text-primary-light transition-all duration-300">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <span>Tes</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="p-6">
+                    
+                    <!-- Sertifikasi Content -->
+                    <div id="content-sertifikasi" class="tab-content">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Data Sertifikasi</h2>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="text-xs uppercase bg-gray-50 dark:bg-dark-border text-gray-700 dark:text-gray-300">
+                                    <tr>
+                                        <th class="px-4 py-3 rounded-tl-lg">No</th>
+                                        <th class="px-4 py-3">Jenis Sertifikasi</th>
+                                        <th class="px-4 py-3">Bidang Studi</th>
+                                        <th class="px-4 py-3">Nomor Registrasi Pendidik</th>
+                                        <th class="px-4 py-3">Nomor SK Sertifikasi</th>
+                                        <th class="px-4 py-3">Tahun Sertifikasi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200 dark:divide-dark-border">
+                                    <tr class="bg-white dark:bg-dark-card hover:bg-gray-50 dark:hover:bg-dark-border/50 transition-colors">
+                                        <td colspan="6" class="px-4 py-4 text-center text-gray-500 dark:text-gray-400">Tidak ada data</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Tes Content -->
+                    <div id="content-tes" class="tab-content hidden">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Data Tes</h2>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="text-xs uppercase bg-gray-50 dark:bg-dark-border text-gray-700 dark:text-gray-300">
+                                    <tr>
+                                        <th class="px-4 py-3 rounded-tl-lg">No</th>
+                                        <th class="px-4 py-3">Nama Tes</th>
+                                        <th class="px-4 py-3">Jenis</th>
+                                        <th class="px-4 py-3">Penyelenggara</th>
+                                        <th class="px-4 py-3">Skor</th>
+                                        <th class="px-4 py-3">Tahun</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200 dark:divide-dark-border">
+                                    <tr class="bg-white dark:bg-dark-card hover:bg-gray-50 dark:hover:bg-dark-border/50 transition-colors">
+                                        <td colspan="6" class="px-4 py-4 text-center text-gray-500 dark:text-gray-400">Tidak ada data</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </main>
+
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const html = document.documentElement;
+
+        // Check for saved preference or system preference
+        function initDarkMode() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                html.classList.remove('light');
+                html.classList.add('dark');
+            } else {
+                html.classList.remove('dark');
+                html.classList.add('light');
+            }
+        }
+
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', () => {
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Initialize dark mode on page load
+        initDarkMode();
+
+        // Toggle Sidebar for Mobile
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+            sidebar.classList.toggle('translate-x-0');
+            sidebarOverlay.classList.toggle('opacity-0');
+            sidebarOverlay.classList.toggle('opacity-100');
+            sidebarOverlay.classList.toggle('pointer-events-none');
+            sidebarOverlay.classList.toggle('pointer-events-auto');
+            document.body.style.overflow = sidebar.classList.contains('translate-x-0') ? 'hidden' : '';
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+            sidebar.classList.remove('translate-x-0');
+            sidebarOverlay.classList.add('opacity-0', 'pointer-events-none');
+            sidebarOverlay.classList.remove('opacity-100', 'pointer-events-auto');
+            document.body.style.overflow = '';
+        });
+
+        // Toggle Submenu
+        function toggleSubmenu(element) {
+            const menuItem = element.parentElement;
+            const isOpen = menuItem.classList.contains('open');
+            
+            // Close all other submenus
+            document.querySelectorAll('.menu-item.open').forEach(item => {
+                if (item !== menuItem) {
+                    item.classList.remove('open');
+                }
+            });
+            
+            // Toggle current submenu
+            menuItem.classList.toggle('open');
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.remove('translate-x-0');
+                sidebar.classList.add('-translate-x-full');
+                sidebar.classList.remove('-translate-x-full');
+                sidebarOverlay.classList.add('opacity-0', 'pointer-events-none');
+                sidebarOverlay.classList.remove('opacity-100', 'pointer-events-auto');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Tab Switching Function
+        function switchTab(tabName) {
+            // Remove active state from all tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-primary', 'text-primary', 'dark:text-primary-light');
+                btn.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+            });
+
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Add active state to clicked tab
+            const activeTab = document.getElementById(`tab-${tabName}`);
+            activeTab.classList.add('active', 'border-primary', 'text-primary', 'dark:text-primary-light');
+            activeTab.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+
+            // Show corresponding content
+            const activeContent = document.getElementById(`content-${tabName}`);
+            activeContent.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
