@@ -137,14 +137,14 @@
             </a>
           </div>
 
-          <!-- Sister Biodata -->
+          <!-- Biodata -->
           <div class="menu-item">
             <div
               onclick="toggleSubmenu(this)"
               class="flex items-center gap-3.5 px-4 py-3.5 text-white/85 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white cursor-pointer"
             >
               <i class="fas fa-book w-5 text-center text-lg"></i>
-              <span class="font-medium">Sister Biodata</span>
+              <span class="font-medium">Biodata</span>
               <i
                 class="fas fa-chevron-right arrow ml-auto text-xs transition-transform duration-300"
               ></i>
@@ -360,6 +360,62 @@
           </p>
         </div>
 
+        <!-- Filter Section -->
+        <div class="bg-white dark:bg-dark-card rounded-2xl p-5 lg:p-6 shadow-sm dark:shadow-none dark:border dark:border-dark-border mb-6 lg:mb-8">
+          <div class="flex flex-col md:flex-row md:items-center gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
+                <i class="fas fa-filter"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-gray-800 dark:text-white">Filter Data</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Pilih kategori untuk filter statistik</p>
+              </div>
+            </div>
+            
+            <div class="flex-1 flex flex-col sm:flex-row gap-3 md:justify-end">
+              <!-- Kategori Filter -->
+              <div class="relative">
+                <select id="filterKategori" onchange="handleKategoriChange(this.value)" class="appearance-none w-full sm:w-48 px-4 py-2.5 pr-10 bg-gray-50 dark:bg-dark-border border border-gray-200 dark:border-gray-600 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer">
+                  <option value="semua">Semua</option>
+                  <option value="universitas">Universitas</option>
+                  <option value="prodi">Prodi</option>
+                </select>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+              </div>
+
+              <!-- Filter Kedua (Dinamis) -->
+              <div id="filterSecondaryContainer" class="relative hidden">
+                <select id="filterSecondary" onchange="handleSecondaryChange(this.value)" class="appearance-none w-full sm:w-56 px-4 py-2.5 pr-10 bg-gray-50 dark:bg-dark-border border border-gray-200 dark:border-gray-600 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer">
+                  <!-- Options akan diisi oleh JavaScript -->
+                </select>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+              </div>
+
+              <!-- Tombol Terapkan -->
+              <button onclick="applyFilter()" class="px-5 py-2.5 bg-gradient-to-r from-primary to-primary-dark text-white rounded-xl text-sm font-medium hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 flex items-center justify-center gap-2">
+                <i class="fas fa-search"></i>
+                <span>Terapkan</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Active Filter Badge -->
+          <div id="activeFilterBadge" class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 hidden">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-xs text-gray-500 dark:text-gray-400">Filter aktif:</span>
+              <span id="filterBadgeText" class="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 dark:bg-primary/20 text-primary rounded-full text-xs font-medium">
+                <i class="fas fa-check-circle"></i>
+                <span>Semua Data</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div
           class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6"
@@ -467,6 +523,7 @@
                     Insight Tahun 2024
                   </h4>
                   <p
+                    id="insightPenelitian"
                     class="text-sm text-blue-700 dark:text-blue-400 leading-relaxed"
                   >
                     Jumlah penelitian yang telah dilakukan oleh dosen Program
@@ -517,6 +574,7 @@
                     Insight Tahun 2024
                   </h4>
                   <p
+                    id="insightPengabdian"
                     class="text-sm text-green-700 dark:text-green-400 leading-relaxed"
                   >
                     Jumlah pengabdian yang telah dilakukan oleh dosen Program
@@ -669,11 +727,20 @@
         },
       };
 
-      // Penelitian Chart
-      const penelitianCtx = document
-        .getElementById("penelitianChart")
-        .getContext("2d");
-      new Chart(penelitianCtx, {
+      // ==================== VARIABLE DECLARATIONS ====================
+      // Declare chart instances first (sebelum digunakan)
+      let penelitianChartInstance = null;
+      let pengabdianChartInstance = null;
+
+      // State filter - harus dideklarasikan sebelum fungsi handler
+      let currentFilter = {
+        kategori: 'semua',
+        secondary: null
+      };
+
+      // Initialize charts
+      penelitianChartInstance = new Chart(
+        document.getElementById("penelitianChart").getContext("2d"), {
         type: "bar",
         data: {
           labels: ["2020", "2021", "2022", "2023", "2024", "2025"],
@@ -692,11 +759,8 @@
         options: chartOptions,
       });
 
-      // Pengabdian Chart
-      const pengabdianCtx = document
-        .getElementById("pengabdianChart")
-        .getContext("2d");
-      new Chart(pengabdianCtx, {
+      pengabdianChartInstance = new Chart(
+        document.getElementById("pengabdianChart").getContext("2d"), {
         type: "bar",
         data: {
           labels: ["2020", "2021", "2022", "2023", "2024", "2025"],
@@ -714,6 +778,252 @@
         },
         options: chartOptions,
       });
+
+      // ==================== FILTER FUNCTIONALITY ====================
+      
+      // Data dummy fakultas dan prodi dengan data chart
+      const fakultasData = [
+        { 
+          id: 'fti', nama: 'Fakultas Teknologi Informasi', dosen: 45, tendik: 32, aktif: 77,
+          penelitian: [6, 9, 12, 8, 15, 4],
+          pengabdian: [4, 6, 9, 7, 11, 2]
+        },
+        { 
+          id: 'feb', nama: 'Fakultas Ekonomi dan Bisnis', dosen: 38, tendik: 28, aktif: 66,
+          penelitian: [5, 7, 10, 6, 12, 3],
+          pengabdian: [3, 5, 8, 5, 9, 2]
+        },
+        { 
+          id: 'fkip', nama: 'Fakultas Keguruan dan Ilmu Pendidikan', dosen: 52, tendik: 40, aktif: 92,
+          penelitian: [7, 11, 14, 9, 16, 5],
+          pengabdian: [5, 7, 11, 8, 13, 3]
+        },
+        { 
+          id: 'fh', nama: 'Fakultas Hukum', dosen: 25, tendik: 18, aktif: 43,
+          penelitian: [3, 5, 7, 4, 8, 2],
+          pengabdian: [2, 3, 5, 3, 6, 1]
+        },
+        { 
+          id: 'ft', nama: 'Fakultas Teknik', dosen: 40, tendik: 35, aktif: 75,
+          penelitian: [5, 8, 11, 7, 13, 3],
+          pengabdian: [4, 6, 9, 6, 10, 2]
+        }
+      ];
+
+      const prodiData = [
+        { id: 'ti', nama: 'Teknik Informatika', fakultas: 'fti', dosen: 15, tendik: 10, aktif: 25, penelitian: [2, 3, 4, 3, 5, 1], pengabdian: [1, 2, 3, 2, 4, 1] },
+        { id: 'si', nama: 'Sistem Informasi', fakultas: 'fti', dosen: 12, tendik: 8, aktif: 20, penelitian: [2, 3, 4, 2, 5, 1], pengabdian: [1, 2, 3, 2, 3, 1] },
+        { id: 'dkv', nama: 'Desain Komunikasi Visual', fakultas: 'fti', dosen: 10, tendik: 7, aktif: 17, penelitian: [1, 2, 2, 2, 3, 1], pengabdian: [1, 1, 2, 2, 2, 0] },
+        { id: 'mi', nama: 'Manajemen Informatika', fakultas: 'fti', dosen: 8, tendik: 7, aktif: 15, penelitian: [1, 1, 2, 1, 2, 1], pengabdian: [1, 1, 1, 1, 2, 0] },
+        { id: 'mn', nama: 'Manajemen', fakultas: 'feb', dosen: 18, tendik: 12, aktif: 30, penelitian: [2, 3, 4, 3, 5, 1], pengabdian: [1, 2, 3, 2, 4, 1] },
+        { id: 'ak', nama: 'Akuntansi', fakultas: 'feb', dosen: 12, tendik: 10, aktif: 22, penelitian: [2, 2, 3, 2, 4, 1], pengabdian: [1, 2, 3, 2, 3, 1] },
+        { id: 'ek', nama: 'Ekonomi', fakultas: 'feb', dosen: 8, tendik: 6, aktif: 14, penelitian: [1, 2, 3, 1, 3, 1], pengabdian: [1, 1, 2, 1, 2, 0] },
+        { id: 'pbi', nama: 'Pendidikan Bahasa Inggris', fakultas: 'fkip', dosen: 16, tendik: 12, aktif: 28, penelitian: [2, 4, 5, 3, 5, 2], pengabdian: [2, 2, 4, 3, 4, 1] },
+        { id: 'pgsd', nama: 'PGSD', fakultas: 'fkip', dosen: 20, tendik: 15, aktif: 35, penelitian: [3, 4, 5, 3, 6, 2], pengabdian: [2, 3, 4, 3, 5, 1] },
+        { id: 'pmtk', nama: 'Pendidikan Matematika', fakultas: 'fkip', dosen: 16, tendik: 13, aktif: 29, penelitian: [2, 3, 4, 3, 5, 1], pengabdian: [1, 2, 3, 2, 4, 1] },
+        { id: 'hk', nama: 'Ilmu Hukum', fakultas: 'fh', dosen: 25, tendik: 18, aktif: 43, penelitian: [3, 5, 7, 4, 8, 2], pengabdian: [2, 3, 5, 3, 6, 1] },
+        { id: 'ts', nama: 'Teknik Sipil', fakultas: 'ft', dosen: 18, tendik: 15, aktif: 33, penelitian: [2, 3, 4, 3, 5, 1], pengabdian: [2, 2, 4, 2, 4, 1] },
+        { id: 'te', nama: 'Teknik Elektro', fakultas: 'ft', dosen: 12, tendik: 10, aktif: 22, penelitian: [2, 3, 4, 2, 5, 1], pengabdian: [1, 2, 3, 2, 3, 1] },
+        { id: 'tm', nama: 'Teknik Mesin', fakultas: 'ft', dosen: 10, tendik: 10, aktif: 20, penelitian: [1, 2, 3, 2, 3, 1], pengabdian: [1, 2, 2, 2, 3, 0] }
+      ];
+
+      // Default chart data
+      const defaultChartData = {
+        penelitian: [8, 12, 15, 10, 18, 5],
+        pengabdian: [5, 8, 12, 9, 14, 3]
+      };
+
+      // Handle perubahan kategori
+      function handleKategoriChange(value) {
+        currentFilter.kategori = value;
+        currentFilter.secondary = null;
+        
+        const secondaryContainer = document.getElementById('filterSecondaryContainer');
+        const secondarySelect = document.getElementById('filterSecondary');
+        
+        if (value === 'semua') {
+          secondaryContainer.classList.add('hidden');
+        } else if (value === 'universitas') {
+          secondaryContainer.classList.remove('hidden');
+          // Populate fakultas options
+          secondarySelect.innerHTML = '<option value="">-- Pilih Fakultas --</option>';
+          fakultasData.forEach(fak => {
+            secondarySelect.innerHTML += `<option value="${fak.id}">${fak.nama}</option>`;
+          });
+        } else if (value === 'prodi') {
+          secondaryContainer.classList.remove('hidden');
+          // Populate prodi options
+          secondarySelect.innerHTML = '<option value="">-- Pilih Program Studi --</option>';
+          prodiData.forEach(prodi => {
+            secondarySelect.innerHTML += `<option value="${prodi.id}">${prodi.nama}</option>`;
+          });
+        }
+      }
+
+      // Handle perubahan filter kedua
+      function handleSecondaryChange(value) {
+        currentFilter.secondary = value;
+      }
+
+      // Terapkan filter
+      function applyFilter() {
+        const badgeDiv = document.getElementById('activeFilterBadge');
+        const badgeText = document.getElementById('filterBadgeText');
+        
+        let filterLabel = '';
+        let statsData = { dosen: 120, tendik: 245, aktif: 365 };
+        let chartData = { penelitian: defaultChartData.penelitian, pengabdian: defaultChartData.pengabdian };
+        let entityName = 'Semua Data';
+        
+        if (currentFilter.kategori === 'semua') {
+          filterLabel = 'Semua Data';
+          statsData = { dosen: 120, tendik: 245, aktif: 365 };
+          chartData = { penelitian: defaultChartData.penelitian, pengabdian: defaultChartData.pengabdian };
+          entityName = 'Universitas';
+        } else if (currentFilter.kategori === 'universitas') {
+          if (currentFilter.secondary) {
+            const fakultas = fakultasData.find(f => f.id === currentFilter.secondary);
+            if (fakultas) {
+              filterLabel = `Universitas > ${fakultas.nama}`;
+              statsData = { dosen: fakultas.dosen, tendik: fakultas.tendik, aktif: fakultas.aktif };
+              chartData = { penelitian: fakultas.penelitian, pengabdian: fakultas.pengabdian };
+              entityName = fakultas.nama;
+            }
+          } else {
+            filterLabel = 'Universitas (Semua Fakultas)';
+            statsData = { dosen: 120, tendik: 245, aktif: 365 };
+            chartData = { penelitian: defaultChartData.penelitian, pengabdian: defaultChartData.pengabdian };
+            entityName = 'Semua Fakultas';
+          }
+        } else if (currentFilter.kategori === 'prodi') {
+          if (currentFilter.secondary) {
+            const prodi = prodiData.find(p => p.id === currentFilter.secondary);
+            if (prodi) {
+              filterLabel = `Prodi > ${prodi.nama}`;
+              statsData = { dosen: prodi.dosen, tendik: prodi.tendik, aktif: prodi.aktif };
+              chartData = { penelitian: prodi.penelitian, pengabdian: prodi.pengabdian };
+              entityName = 'Prodi ' + prodi.nama;
+            }
+          } else {
+            filterLabel = 'Prodi (Semua Program Studi)';
+            statsData = { dosen: 120, tendik: 245, aktif: 365 };
+            chartData = { penelitian: defaultChartData.penelitian, pengabdian: defaultChartData.pengabdian };
+            entityName = 'Semua Program Studi';
+          }
+        }
+        
+        // Update badge
+        badgeDiv.classList.remove('hidden');
+        badgeText.innerHTML = `<i class="fas fa-check-circle"></i><span>${filterLabel}</span>`;
+        
+        // Update stats (animasi)
+        updateStats(statsData);
+        
+        // Update charts
+        updateCharts(chartData);
+        
+        // Update insights
+        updateInsights(chartData, entityName);
+        
+        // Notifikasi
+        showFilterNotification(filterLabel);
+      }
+
+      // Update charts dengan data baru
+      function updateCharts(data) {
+        if (penelitianChartInstance) {
+          penelitianChartInstance.data.datasets[0].data = data.penelitian;
+          penelitianChartInstance.update('active');
+        }
+        
+        if (pengabdianChartInstance) {
+          pengabdianChartInstance.data.datasets[0].data = data.pengabdian;
+          pengabdianChartInstance.update('active');
+        }
+      }
+
+      // Update insight text
+      function updateInsights(data, entityName) {
+        const penelitianInsight = document.getElementById('insightPenelitian');
+        const pengabdianInsight = document.getElementById('insightPengabdian');
+        
+        // Hitung total 2024 (index 4)
+        const penelitian2024 = data.penelitian[5];
+        const pengabdian2024 = data.pengabdian[5];
+        
+        if (penelitianInsight) {
+          penelitianInsight.innerHTML = `
+            Jumlah penelitian yang telah dilakukan oleh dosen ${entityName} adalah sebanyak
+            <span class="font-bold">${penelitian2024} penelitian</span>.
+          `;
+        }
+        
+        if (pengabdianInsight) {
+          pengabdianInsight.innerHTML = `
+            Jumlah pengabdian yang telah dilakukan oleh dosen ${entityName} adalah sebanyak
+            <span class="font-bold">${pengabdian2024} pengabdian</span>.
+          `;
+        }
+      }
+
+      // Update stats dengan animasi
+      function updateStats(data) {
+        const statCards = document.querySelectorAll('.grid.grid-cols-1.sm\\:grid-cols-2.xl\\:grid-cols-3 > div');
+        
+        if (statCards.length >= 3) {
+          // Animate dosen
+          animateNumber(statCards[0].querySelector('h3'), data.dosen);
+          // Animate tendik
+          animateNumber(statCards[1].querySelector('h3'), data.tendik);
+          // Animate aktif
+          animateNumber(statCards[2].querySelector('h3'), data.aktif);
+        }
+      }
+
+      // Animasi angka
+      function animateNumber(element, target) {
+        const current = parseInt(element.textContent) || 0;
+        const increment = (target - current) / 30;
+        let value = current;
+        let count = 0;
+        
+        const timer = setInterval(() => {
+          count++;
+          value += increment;
+          element.textContent = Math.round(value);
+          
+          if (count >= 30) {
+            element.textContent = target;
+            clearInterval(timer);
+          }
+        }, 20);
+      }
+
+      // Tampilkan notifikasi filter
+      function showFilterNotification(label) {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-5 right-5 bg-gradient-to-r from-primary to-primary-dark text-white px-5 py-3 rounded-xl shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-[2000] flex items-center gap-3';
+        notification.innerHTML = `
+          <i class="fas fa-filter"></i>
+          <span>Filter diterapkan: <strong>${label}</strong></span>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+          notification.classList.remove('translate-y-20', 'opacity-0');
+          notification.classList.add('translate-y-0', 'opacity-100');
+        }, 10);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+          notification.classList.remove('translate-y-0', 'opacity-100');
+          notification.classList.add('translate-y-20', 'opacity-0');
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
+      }
     </script>
   </body>
 </html>

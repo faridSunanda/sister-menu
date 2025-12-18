@@ -297,6 +297,33 @@
             opacity: 1;
             color: #435EBE;
         }
+
+        /* Modal Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Button hover effect */
+        .penelitianButton, .pengabdianButton {
+            transition: all 0.2s ease;
+        }
+        
+        .penelitianButton:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .pengabdianButton:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+        }
     </style>
 </head>
 <body class="font-inter bg-gray-50 dark:bg-dark-bg min-h-screen overflow-x-hidden transition-colors duration-300">
@@ -332,11 +359,11 @@
                     </a>
                 </div>
 
-                <!-- Sister Biodata -->
+                <!-- Biodata -->
                 <div class="menu-item">
                     <div onclick="toggleSubmenu(this)" class="flex items-center gap-3.5 px-4 py-3.5 text-white/85 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white cursor-pointer">
                         <i class="fas fa-book w-5 text-center text-lg"></i>
-                        <span class="font-medium">Sister Biodata</span>
+                        <span class="font-medium">Biodata</span>
                         <i class="fas fa-chevron-right arrow ml-auto text-xs transition-transform duration-300"></i>
                     </div>
                     <div class="submenu bg-black/10 rounded-lg ml-5 my-1">
@@ -498,9 +525,9 @@
                                     <th class="text-center">No</th>
                                     <th>Nama Dosen</th>
                                     <th>NIDN</th>
+                                    <th>NUPTK</th>
                                     <th class="text-center">Jumlah Penelitian</th>
                                     <th class="text-center">Jumlah Pengabdian</th>
-                                    <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -516,13 +543,9 @@
                                         </div>
                                     </td>
                                     <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0012058701</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">15</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">8</span></td>
-                                    <td class="text-center">
-                                        <button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-all" title="Detail">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                    </td>
+                                    <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0012058701</span></td>
+                                    <td class="text-center"><span class="penelitianButton inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">15</span></td>
+                                    <td class="text-center"><span class="pengabdianButton inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">8</span></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center">2</td>
@@ -536,13 +559,9 @@
                                         </div>
                                     </td>
                                     <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0015067802</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">22</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">12</span></td>
-                                    <td class="text-center">
-                                        <button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-all" title="Detail">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                    </td>
+                                    <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0015067802</span></td>
+                                    <td class="text-center"><span class="penelitianButton inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">22</span></td>
+                                    <td class="text-center"><span class="pengabdianButton inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">12</span></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center">3</td>
@@ -556,13 +575,9 @@
                                         </div>
                                     </td>
                                     <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0023078503</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">9</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">6</span></td>
-                                    <td class="text-center">
-                                        <button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-all" title="Detail">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                    </td>
+                                    <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0023078503</span></td>
+                                    <td class="text-center"><span class="penelitianButton inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">9</span></td>
+                                    <td class="text-center"><span class="pengabdianButton inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">6</span></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center">4</td>
@@ -576,13 +591,9 @@
                                         </div>
                                     </td>
                                     <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0031088604</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">11</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">7</span></td>
-                                    <td class="text-center">
-                                        <button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-all" title="Detail">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                    </td>
+                                    <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0031088604</span></td>
+                                    <td class="text-center"><span class="penelitianButton inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">11</span></td>
+                                    <td class="text-center"><span class="pengabdianButton inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">7</span></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center">5</td>
@@ -596,13 +607,9 @@
                                         </div>
                                     </td>
                                     <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0045098705</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">18</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">10</span></td>
-                                    <td class="text-center">
-                                        <button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-all" title="Detail">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                    </td>
+                                    <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0045098705</span></td>
+                                    <td class="text-center"><span class="penelitianButton inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">18</span></td>
+                                    <td class="text-center"><span class="pengabdianButton inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">10</span></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center">6</td>
@@ -616,13 +623,9 @@
                                         </div>
                                     </td>
                                     <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0052048806</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">25</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">14</span></td>
-                                    <td class="text-center">
-                                        <button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-all" title="Detail">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                    </td>
+                                    <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0052048806</span></td>
+                                    <td class="text-center"><span class="penelitianButton inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">25</span></td>
+                                    <td class="text-center"><span class="pengabdianButton inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">14</span></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center">7</td>
@@ -636,13 +639,9 @@
                                         </div>
                                     </td>
                                     <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0061078907</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">7</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">5</span></td>
-                                    <td class="text-center">
-                                        <button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-all" title="Detail">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                    </td>
+                                    <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0061078907</span></td>
+                                    <td class="text-center"><span class="penelitianButton inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">7</span></td>
+                                    <td class="text-center"><span class="pengabdianButton inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">5</span></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center">8</td>
@@ -656,13 +655,9 @@
                                         </div>
                                     </td>
                                     <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0073089008</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">13</span></td>
-                                    <td class="text-center"><span class="inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">9</span></td>
-                                    <td class="text-center">
-                                        <button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-all" title="Detail">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                    </td>
+                                    <td><span class="font-mono text-sm bg-gray-100 dark:bg-dark-border px-2 py-1 rounded">0073089008</span></td>
+                                    <td class="text-center"><span class="penelitianButton inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full font-bold">13</span></td>
+                                    <td class="text-center"><span class="pengabdianButton inline-flex items-center justify-center w-8 h-8 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full font-bold">9</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -672,6 +667,114 @@
             
         </div>
     </main>
+
+    <!-- Modal Penelitian -->
+    <div id="modalPenelitian" class="fixed inset-0 z-[1100] hidden">
+        <!-- Backdrop -->
+        <div class="modal-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
+        <!-- Modal Content -->
+        <div class="modal-container fixed inset-0 flex items-center justify-center p-4">
+            <div class="modal-content bg-white dark:bg-dark-card rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] overflow-hidden transform scale-95 opacity-0 transition-all duration-300">
+                <!-- Modal Header -->
+                <div class="bg-gradient-to-r from-blue-600 to-blue-500 p-5">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-microscope text-white text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Daftar Penelitian</h3>
+                                <p id="penelitianDosenName" class="text-white/80 text-sm">Nama Dosen</p>
+                            </div>
+                        </div>
+                        <button onclick="closeModal('modalPenelitian')" class="w-10 h-10 bg-white/20 hover:bg-white/30 text-white rounded-xl flex items-center justify-center transition-all duration-300">
+                            <i class="fas fa-times text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Modal Body -->
+                <div class="p-5 overflow-y-auto max-h-[calc(85vh-120px)]">
+                    <div id="penelitianList" class="space-y-3">
+                        <!-- Contoh tampilan data penelitian -->
+                        <div class="bg-gray-50 dark:bg-dark-border rounded-xl p-4 hover:shadow-md transition-all duration-300 border border-gray-100 dark:border-gray-700">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg flex items-center justify-center font-bold text-sm flex-shrink-0">
+                                    1
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Implementasi Machine Learning untuk Prediksi Cuaca</h4>
+                                    <div class="flex flex-wrap items-center gap-3 text-sm">
+                                        <span class="inline-flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            2024
+                                        </span>
+                                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">
+                                            <i class="fas fa-check-circle"></i>
+                                            Selesai
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pengabdian -->
+    <div id="modalPengabdian" class="fixed inset-0 z-[1100] hidden">
+        <!-- Backdrop -->
+        <div class="modal-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
+        <!-- Modal Content -->
+        <div class="modal-container fixed inset-0 flex items-center justify-center p-4">
+            <div class="modal-content bg-white dark:bg-dark-card rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] overflow-hidden transform scale-95 opacity-0 transition-all duration-300">
+                <!-- Modal Header -->
+                <div class="bg-gradient-to-r from-green-600 to-green-500 p-5">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-hands-helping text-white text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Daftar Pengabdian</h3>
+                                <p id="pengabdianDosenName" class="text-white/80 text-sm">Nama Dosen</p>
+                            </div>
+                        </div>
+                        <button onclick="closeModal('modalPengabdian')" class="w-10 h-10 bg-white/20 hover:bg-white/30 text-white rounded-xl flex items-center justify-center transition-all duration-300">
+                            <i class="fas fa-times text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Modal Body -->
+                <div class="p-5 overflow-y-auto max-h-[calc(85vh-120px)]">
+                    <div id="pengabdianList" class="space-y-3">
+                        <!-- Contoh tampilan data pengabdian -->
+                        <div class="bg-gray-50 dark:bg-dark-border rounded-xl p-4 hover:shadow-md transition-all duration-300 border border-gray-100 dark:border-gray-700">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-lg flex items-center justify-center font-bold text-sm flex-shrink-0">
+                                    1
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Pelatihan Coding untuk Siswa SMA</h4>
+                                    <div class="flex flex-wrap items-center gap-3 text-sm">
+                                        <span class="inline-flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            2024
+                                        </span>
+                                        <span class="inline-flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            SMAN 1 Jakarta
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Dark Mode Toggle
@@ -836,8 +939,273 @@
                     }).animate({
                         'opacity': '1'
                     }, 300);
+                    
+                    // Re-attach event listeners setelah DataTable redraw
+                    attachButtonListeners();
                 }
             });
+            
+            // Attach initial event listeners
+            attachButtonListeners();
+        });
+
+        // Data dummy penelitian untuk setiap dosen
+        const penelitianData = {
+            'Dr. Ahmad Suryadi, M.Kom': [
+                { no: 1, judul: 'Implementasi Machine Learning untuk Prediksi Cuaca', tahun: 2024, status: 'Selesai' },
+                { no: 2, judul: 'Analisis Big Data untuk Smart City', tahun: 2024, status: 'Berjalan' },
+                { no: 3, judul: 'Pengembangan Sistem IoT Berbasis Cloud', tahun: 2023, status: 'Selesai' },
+                { no: 4, judul: 'Deep Learning untuk Deteksi Objek', tahun: 2023, status: 'Selesai' },
+                { no: 5, judul: 'Optimasi Algoritma Genetika', tahun: 2022, status: 'Selesai' }
+            ],
+            'Dr. Siti Pratiwi, S.T., M.T.': [
+                { no: 1, judul: 'Sistem Pengenalan Wajah Real-time', tahun: 2024, status: 'Berjalan' },
+                { no: 2, judul: 'Blockchain untuk E-Voting', tahun: 2024, status: 'Selesai' },
+                { no: 3, judul: 'Natural Language Processing Bahasa Indonesia', tahun: 2023, status: 'Selesai' }
+            ],
+            'Budi Wahyudi, S.Kom., M.Cs.': [
+                { no: 1, judul: 'Sistem Informasi Manajemen Rumah Sakit', tahun: 2024, status: 'Berjalan' },
+                { no: 2, judul: 'E-Commerce dengan Rekomendasi Produk AI', tahun: 2023, status: 'Selesai' }
+            ],
+            'Rina Handayani, S.Kom., M.M.': [
+                { no: 1, judul: 'Analisis Sentimen Media Sosial', tahun: 2024, status: 'Berjalan' },
+                { no: 2, judul: 'Dashboard Business Intelligence', tahun: 2023, status: 'Selesai' },
+                { no: 3, judul: 'Data Mining untuk Prediksi Penjualan', tahun: 2023, status: 'Selesai' }
+            ],
+            'Dedi Kurniawan, S.T., M.Eng.': [
+                { no: 1, judul: 'Sistem Kontrol Otomatis Berbasis PLC', tahun: 2024, status: 'Berjalan' },
+                { no: 2, judul: 'Robot Autonomous untuk Industri', tahun: 2024, status: 'Selesai' },
+                { no: 3, judul: 'Smart Grid untuk Efisiensi Energi', tahun: 2023, status: 'Selesai' }
+            ],
+            'Dr. Faisal Nugroho, M.Si.': [
+                { no: 1, judul: 'Model Matematika untuk Epidemiologi', tahun: 2024, status: 'Berjalan' },
+                { no: 2, judul: 'Optimasi Numerik untuk Machine Learning', tahun: 2024, status: 'Selesai' },
+                { no: 3, judul: 'Analisis Statistik Big Data', tahun: 2023, status: 'Selesai' },
+                { no: 4, judul: 'Simulasi Monte Carlo untuk Keuangan', tahun: 2023, status: 'Selesai' }
+            ],
+            'Maya Anggraini, S.Kom., M.T.': [
+                { no: 1, judul: 'Aplikasi Mobile untuk Kesehatan', tahun: 2024, status: 'Berjalan' },
+                { no: 2, judul: 'UX Design untuk E-Learning', tahun: 2023, status: 'Selesai' }
+            ],
+            'Hendra Santoso, S.Si., M.Sc.': [
+                { no: 1, judul: 'Simulasi Fisika Kuantum', tahun: 2024, status: 'Berjalan' },
+                { no: 2, judul: 'Sensor IoT untuk Monitoring Lingkungan', tahun: 2024, status: 'Selesai' },
+                { no: 3, judul: 'Material Nano untuk Energi Terbarukan', tahun: 2023, status: 'Selesai' }
+            ]
+        };
+
+        // Data dummy pengabdian untuk setiap dosen
+        const pengabdianData = {
+            'Dr. Ahmad Suryadi, M.Kom': [
+                { no: 1, judul: 'Pelatihan Coding untuk Siswa SMA', tahun: 2024, lokasi: 'SMAN 1 Jakarta' },
+                { no: 2, judul: 'Workshop IoT untuk UMKM', tahun: 2024, lokasi: 'Kota Tangerang' },
+                { no: 3, judul: 'Sosialisasi Keamanan Digital', tahun: 2023, lokasi: 'Kelurahan Menteng' }
+            ],
+            'Dr. Siti Pratiwi, S.T., M.T.': [
+                { no: 1, judul: 'Pelatihan AI untuk Guru SMK', tahun: 2024, lokasi: 'SMKN 5 Bandung' },
+                { no: 2, judul: 'Workshop Data Science', tahun: 2023, lokasi: 'Universitas Swasta' }
+            ],
+            'Budi Wahyudi, S.Kom., M.Cs.': [
+                { no: 1, judul: 'Pendampingan Digitalisasi UMKM', tahun: 2024, lokasi: 'Kota Depok' },
+                { no: 2, judul: 'Pelatihan Website untuk Desa', tahun: 2023, lokasi: 'Desa Sukamaju' }
+            ],
+            'Rina Handayani, S.Kom., M.M.': [
+                { no: 1, judul: 'Workshop E-Commerce', tahun: 2024, lokasi: 'Komunitas UMKM' },
+                { no: 2, judul: 'Pelatihan Digital Marketing', tahun: 2024, lokasi: 'Koperasi Wanita' },
+                { no: 3, judul: 'Sosialisasi Media Sosial Bisnis', tahun: 2023, lokasi: 'Kota Bekasi' }
+            ],
+            'Dedi Kurniawan, S.T., M.Eng.': [
+                { no: 1, judul: 'Pelatihan PLC untuk Teknisi', tahun: 2024, lokasi: 'PT. Industri Maju' },
+                { no: 2, judul: 'Workshop Robotika untuk SMA', tahun: 2024, lokasi: 'SMAN 3 Surabaya' }
+            ],
+            'Dr. Faisal Nugroho, M.Si.': [
+                { no: 1, judul: 'Olimpiade Matematika SMA', tahun: 2024, lokasi: 'Provinsi Jawa Barat' },
+                { no: 2, judul: 'Pelatihan Statistik untuk Peneliti', tahun: 2024, lokasi: 'Balitbang' },
+                { no: 3, judul: 'Workshop Excel Advanced', tahun: 2023, lokasi: 'Dinas Pendidikan' }
+            ],
+            'Maya Anggraini, S.Kom., M.T.': [
+                { no: 1, judul: 'Pelatihan Desain UI/UX', tahun: 2024, lokasi: 'Startup Hub' },
+                { no: 2, judul: 'Workshop Mobile Development', tahun: 2023, lokasi: 'SMKN 2 Jakarta' }
+            ],
+            'Hendra Santoso, S.Si., M.Sc.': [
+                { no: 1, judul: 'Praktikum Fisika untuk SMA', tahun: 2024, lokasi: 'SMAN 7 Yogyakarta' },
+                { no: 2, judul: 'Sosialisasi Energi Terbarukan', tahun: 2024, lokasi: 'Desa Wisata' },
+                { no: 3, judul: 'Workshop Sensor IoT', tahun: 2023, lokasi: 'SMK Teknik' }
+            ]
+        };
+
+        // Fungsi untuk attach event listener ke tombol
+        function attachButtonListeners() {
+            // Event listener untuk tombol penelitian
+            document.querySelectorAll('.penelitianButton').forEach(button => {
+                button.style.cursor = 'pointer';
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const row = this.closest('tr');
+                    // Ambil nama dosen dari div kedua (bukan avatar initial)
+                    const namaElement = row.querySelector('td:nth-child(2) > div > div:nth-child(2) > div.font-semibold');
+                    const namaDosen = namaElement ? namaElement.textContent.trim() : '';
+                    console.log('Nama Dosen:', namaDosen); // Debug
+                    openModal('modalPenelitian', namaDosen, 'penelitian');
+                });
+            });
+
+            // Event listener untuk tombol pengabdian
+            document.querySelectorAll('.pengabdianButton').forEach(button => {
+                button.style.cursor = 'pointer';
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const row = this.closest('tr');
+                    // Ambil nama dosen dari div kedua (bukan avatar initial)
+                    const namaElement = row.querySelector('td:nth-child(2) > div > div:nth-child(2) > div.font-semibold');
+                    const namaDosen = namaElement ? namaElement.textContent.trim() : '';
+                    console.log('Nama Dosen:', namaDosen); // Debug
+                    openModal('modalPengabdian', namaDosen, 'pengabdian');
+                });
+            });
+        }
+
+        // Fungsi untuk membuka modal
+        function openModal(modalId, namaDosen, type) {
+            const modal = document.getElementById(modalId);
+            const backdrop = modal.querySelector('.modal-backdrop');
+            const content = modal.querySelector('.modal-content');
+            
+            // Set nama dosen di header
+            if (type === 'penelitian') {
+                document.getElementById('penelitianDosenName').textContent = namaDosen;
+                renderPenelitianList(namaDosen);
+            } else {
+                document.getElementById('pengabdianDosenName').textContent = namaDosen;
+                renderPengabdianList(namaDosen);
+            }
+            
+            // Show modal
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            // Animate in
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-0');
+                backdrop.classList.add('opacity-100');
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        // Fungsi untuk menutup modal
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const backdrop = modal.querySelector('.modal-backdrop');
+            const content = modal.querySelector('.modal-content');
+            
+            // Animate out
+            backdrop.classList.remove('opacity-100');
+            backdrop.classList.add('opacity-0');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            // Hide modal after animation
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // Render daftar penelitian
+        function renderPenelitianList(namaDosen) {
+            const listContainer = document.getElementById('penelitianList');
+            const data = penelitianData[namaDosen] || [];
+            
+            if (data.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="text-center py-10">
+                        <i class="fas fa-folder-open text-4xl text-gray-300 dark:text-gray-600 mb-3"></i>
+                        <p class="text-gray-500 dark:text-gray-400">Tidak ada data penelitian</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            listContainer.innerHTML = data.map((item, index) => `
+                <div class="bg-gray-50 dark:bg-dark-border rounded-xl p-4 hover:shadow-md transition-all duration-300 border border-gray-100 dark:border-gray-700" style="animation: fadeInUp 0.3s ease forwards; animation-delay: ${index * 0.05}s; opacity: 0;">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg flex items-center justify-center font-bold text-sm flex-shrink-0">
+                            ${item.no}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-gray-800 dark:text-white mb-1">${item.judul}</h4>
+                            <div class="flex flex-wrap items-center gap-3 text-sm">
+                                <span class="inline-flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    ${item.tahun}
+                                </span>
+                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${item.status === 'Selesai' ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400' : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400'}">
+                                    <i class="fas ${item.status === 'Selesai' ? 'fa-check-circle' : 'fa-clock'}"></i>
+                                    ${item.status}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render daftar pengabdian
+        function renderPengabdianList(namaDosen) {
+            const listContainer = document.getElementById('pengabdianList');
+            const data = pengabdianData[namaDosen] || [];
+            
+            if (data.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="text-center py-10">
+                        <i class="fas fa-folder-open text-4xl text-gray-300 dark:text-gray-600 mb-3"></i>
+                        <p class="text-gray-500 dark:text-gray-400">Tidak ada data pengabdian</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            listContainer.innerHTML = data.map((item, index) => `
+                <div class="bg-gray-50 dark:bg-dark-border rounded-xl p-4 hover:shadow-md transition-all duration-300 border border-gray-100 dark:border-gray-700" style="animation: fadeInUp 0.3s ease forwards; animation-delay: ${index * 0.05}s; opacity: 0;">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-lg flex items-center justify-center font-bold text-sm flex-shrink-0">
+                            ${item.no}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-gray-800 dark:text-white mb-1">${item.judul}</h4>
+                            <div class="flex flex-wrap items-center gap-3 text-sm">
+                                <span class="inline-flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    ${item.tahun}
+                                </span>
+                                <span class="inline-flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    ${item.lokasi}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Close modal when clicking backdrop
+        document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+            backdrop.addEventListener('click', function() {
+                const modal = this.closest('[id^="modal"]');
+                closeModal(modal.id);
+            });
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const openModal = document.querySelector('[id^="modal"]:not(.hidden)');
+                if (openModal) {
+                    closeModal(openModal.id);
+                }
+            }
         });
     </script>
 </body>

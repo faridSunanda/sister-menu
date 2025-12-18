@@ -332,11 +332,11 @@
                     </a>
                 </div>
 
-                <!-- Sister Biodata -->
+                <!-- Biodata -->
                 <div class="menu-item">
                     <div onclick="toggleSubmenu(this)" class="flex items-center gap-3.5 px-4 py-3.5 text-white/85 rounded-xl transition-all duration-300 hover:bg-white/10 hover:text-white cursor-pointer">
                         <i class="fas fa-book w-5 text-center text-lg"></i>
-                        <span class="font-medium">Sister Biodata</span>
+                        <span class="font-medium">Biodata</span>
                         <i class="fas fa-chevron-right arrow ml-auto text-xs transition-transform duration-300"></i>
                     </div>
                     <div class="submenu bg-black/10 rounded-lg ml-5 my-1">
@@ -701,6 +701,149 @@
         </div>
     </main>
 
+    <!-- Modal Detail Penelitian -->
+    <div id="modalDetailPenelitian" class="fixed inset-0 z-[1100] hidden">
+        <!-- Backdrop -->
+        <div class="modal-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
+        <!-- Modal Content -->
+        <div class="modal-container fixed inset-0 flex items-center justify-center p-4">
+            <div class="modal-content bg-white dark:bg-dark-card rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden transform scale-95 opacity-0 transition-all duration-300">
+                <!-- Modal Header -->
+                <div class="bg-gradient-to-r from-primary to-primary-dark p-5">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-microscope text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Detail Penelitian</h3>
+                                <p class="text-white/80 text-sm">Informasi lengkap penelitian</p>
+                            </div>
+                        </div>
+                        <button onclick="closeDetailModal()" class="w-10 h-10 bg-white/20 hover:bg-white/30 text-white rounded-xl flex items-center justify-center transition-all duration-300">
+                            <i class="fas fa-times text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Modal Body -->
+                <div class="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
+                    <div id="detailContent">
+                        <!-- Detail content akan diisi oleh JavaScript -->
+                        <!-- Contoh tampilan data -->
+                        <div class="space-y-6">
+                            <!-- Judul Penelitian -->
+                            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-5 border border-blue-100 dark:border-blue-800">
+                                <h4 id="detailJudul" class="text-xl font-bold text-gray-800 dark:text-white leading-relaxed">Pengembangan Sistem Informasi Akademik Berbasis Web dengan Teknologi Cloud Computing</h4>
+                            </div>
+
+                            <!-- Grid Info -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Peneliti -->
+                                <div class="bg-gray-50 dark:bg-dark-border rounded-xl p-4">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-user text-blue-600 dark:text-blue-400"></i>
+                                        </div>
+                                        <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Peneliti Utama</span>
+                                    </div>
+                                    <p id="detailPeneliti" class="font-semibold text-gray-800 dark:text-white">Dr. Ahmad Suryadi, M.Kom</p>
+                                </div>
+
+                                <!-- Tahun -->
+                                <div class="bg-gray-50 dark:bg-dark-border rounded-xl p-4">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <div class="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-calendar text-green-600 dark:text-green-400"></i>
+                                        </div>
+                                        <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Tahun Pelaksanaan</span>
+                                    </div>
+                                    <p id="detailTahun" class="font-semibold text-gray-800 dark:text-white">2024</p>
+                                </div>
+
+                                <!-- Status -->
+                                <div class="bg-gray-50 dark:bg-dark-border rounded-xl p-4">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <div class="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-info-circle text-purple-600 dark:text-purple-400"></i>
+                                        </div>
+                                        <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Status</span>
+                                    </div>
+                                    <p id="detailStatus" class="font-semibold text-gray-800 dark:text-white">
+                                        <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">
+                                            <i class="fas fa-check-circle"></i> Selesai
+                                        </span>
+                                    </p>
+                                </div>
+
+                                <!-- Sumber Dana -->
+                                <div class="bg-gray-50 dark:bg-dark-border rounded-xl p-4">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <div class="w-8 h-8 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-money-bill-wave text-yellow-600 dark:text-yellow-400"></i>
+                                        </div>
+                                        <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Sumber Dana</span>
+                                    </div>
+                                    <p id="detailSumberDana" class="font-semibold text-gray-800 dark:text-white">Kemenristekdikti</p>
+                                </div>
+                            </div>
+
+                            <!-- Deskripsi -->
+                            <div class="bg-gray-50 dark:bg-dark-border rounded-xl p-5">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-8 h-8 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-file-alt text-indigo-600 dark:text-indigo-400"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Abstrak / Deskripsi</span>
+                                </div>
+                                <p id="detailDeskripsi" class="text-gray-700 dark:text-gray-300 leading-relaxed text-justify">
+                                    Penelitian ini bertujuan untuk mengembangkan sistem informasi akademik berbasis web yang memanfaatkan teknologi cloud computing untuk meningkatkan efisiensi dan aksesibilitas layanan akademik. Sistem ini dirancang untuk mendukung kegiatan akademik seperti pendaftaran mata kuliah, pengelolaan nilai, dan monitoring kehadiran mahasiswa secara real-time.
+                                </p>
+                            </div>
+
+                            <!-- Anggota Tim -->
+                            <div class="bg-gray-50 dark:bg-dark-border rounded-xl p-5">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-8 h-8 bg-cyan-100 dark:bg-cyan-900/30 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-users text-cyan-600 dark:text-cyan-400"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Anggota Tim Peneliti</span>
+                                </div>
+                                <div id="detailAnggota" class="flex flex-wrap gap-2">
+                                    <span class="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
+                                        <i class="fas fa-user-tie mr-2"></i> Dr. Siti Pratiwi, S.T., M.T.
+                                    </span>
+                                    <span class="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400">
+                                        <i class="fas fa-user mr-2"></i> Budi Wahyudi, S.Kom., M.Cs.
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Luaran Penelitian -->
+                            <div class="bg-gray-50 dark:bg-dark-border rounded-xl p-5">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-8 h-8 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-award text-orange-600 dark:text-orange-400"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Luaran Penelitian</span>
+                                </div>
+                                <div id="detailLuaran" class="space-y-2">
+                                    <div class="flex items-center gap-3 p-3 bg-white dark:bg-dark-card rounded-lg border border-gray-100 dark:border-gray-700">
+                                        <i class="fas fa-book text-primary"></i>
+                                        <span class="text-gray-700 dark:text-gray-300">Jurnal Internasional - IEEE Access (Q1)</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-3 bg-white dark:bg-dark-card rounded-lg border border-gray-100 dark:border-gray-700">
+                                        <i class="fas fa-copyright text-primary"></i>
+                                        <span class="text-gray-700 dark:text-gray-300">Hak Cipta - SIKAWAN Cloud System</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Dark Mode Toggle
         const darkModeToggle = document.getElementById('darkModeToggle');
@@ -864,8 +1007,266 @@
                     }).animate({
                         'opacity': '1'
                     }, 300);
+                    
+                    // Re-attach event listeners setelah DataTable redraw
+                    attachDetailButtonListeners();
                 }
             });
+            
+            // Attach initial event listeners
+            attachDetailButtonListeners();
+        });
+
+        // Data dummy penelitian lengkap
+        const penelitianDetailData = {
+            1: {
+                judul: 'Pengembangan Sistem Informasi Akademik Berbasis Web dengan Teknologi Cloud Computing',
+                peneliti: 'Dr. Ahmad Suryadi, M.Kom',
+                tahun: '2024',
+                status: 'Selesai',
+                statusClass: 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400',
+                statusIcon: 'fa-check-circle',
+                sumberDana: 'Kemenristekdikti',
+                deskripsi: 'Penelitian ini bertujuan untuk mengembangkan sistem informasi akademik berbasis web yang memanfaatkan teknologi cloud computing untuk meningkatkan efisiensi dan aksesibilitas layanan akademik. Sistem ini dirancang untuk mendukung kegiatan akademik seperti pendaftaran mata kuliah, pengelolaan nilai, dan monitoring kehadiran mahasiswa secara real-time.',
+                anggota: ['Dr. Siti Pratiwi, S.T., M.T.', 'Budi Wahyudi, S.Kom., M.Cs.'],
+                luaran: [
+                    { icon: 'fa-book', text: 'Jurnal Internasional - IEEE Access (Q1)' },
+                    { icon: 'fa-copyright', text: 'Hak Cipta - SIKAWAN Cloud System' }
+                ]
+            },
+            2: {
+                judul: 'Analisis Keamanan Jaringan pada Infrastruktur Smart Campus',
+                peneliti: 'Dr. Siti Pratiwi, S.T., M.T.',
+                tahun: '2024',
+                status: 'Berjalan',
+                statusClass: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400',
+                statusIcon: 'fa-clock',
+                sumberDana: 'Dana Internal Universitas',
+                deskripsi: 'Penelitian ini menganalisis aspek keamanan jaringan pada infrastruktur smart campus yang meliputi deteksi intrusi, enkripsi data, dan manajemen akses. Tujuannya adalah membangun kerangka kerja keamanan yang komprehensif untuk melindungi data dan sistem kampus dari ancaman cyber.',
+                anggota: ['Dr. Ahmad Suryadi, M.Kom', 'Dedi Kurniawan, S.T., M.Eng.'],
+                luaran: [
+                    { icon: 'fa-book', text: 'Prosiding Internasional - IEEE Conference' },
+                    { icon: 'fa-file-alt', text: 'Laporan Audit Keamanan' }
+                ]
+            },
+            3: {
+                judul: 'Implementasi Machine Learning untuk Prediksi Prestasi Akademik Mahasiswa',
+                peneliti: 'Budi Wahyudi, S.Kom., M.Cs.',
+                tahun: '2023',
+                status: 'Selesai',
+                statusClass: 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400',
+                statusIcon: 'fa-check-circle',
+                sumberDana: 'Hibah Penelitian Dasar DIKTI',
+                deskripsi: 'Penelitian ini mengimplementasikan algoritma machine learning untuk memprediksi prestasi akademik mahasiswa berdasarkan data historis seperti nilai semester sebelumnya, kehadiran, dan aktivitas pembelajaran online. Model yang dikembangkan dapat membantu dosen pembimbing dalam memberikan intervensi dini.',
+                anggota: ['Maya Anggraini, S.Kom., M.T.', 'Dr. Faisal Nugroho, M.Si.'],
+                luaran: [
+                    { icon: 'fa-book', text: 'Jurnal Nasional Terakreditasi SINTA 1' },
+                    { icon: 'fa-code', text: 'Aplikasi Web Prediksi Akademik' }
+                ]
+            },
+            4: {
+                judul: 'Pengembangan Aplikasi Mobile untuk Monitoring Kinerja Dosen',
+                peneliti: 'Rina Handayani, S.Kom., M.M.',
+                tahun: '2023',
+                status: 'Selesai',
+                statusClass: 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400',
+                statusIcon: 'fa-check-circle',
+                sumberDana: 'Dana Internal Universitas',
+                deskripsi: 'Penelitian ini mengembangkan aplikasi mobile berbasis Android dan iOS untuk memantau kinerja dosen secara real-time. Aplikasi ini terintegrasi dengan sistem akademik universitas dan menyediakan dashboard interaktif untuk visualisasi data kinerja.',
+                anggota: ['Maya Anggraini, S.Kom., M.T.'],
+                luaran: [
+                    { icon: 'fa-mobile-alt', text: 'Aplikasi Mobile Android & iOS' },
+                    { icon: 'fa-copyright', text: 'Hak Cipta Aplikasi' }
+                ]
+            },
+            5: {
+                judul: 'Perancangan Sistem IoT untuk Efisiensi Energi pada Gedung Perkuliahan',
+                peneliti: 'Dedi Kurniawan, S.T., M.Eng.',
+                tahun: '2023',
+                status: 'Selesai',
+                statusClass: 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400',
+                statusIcon: 'fa-check-circle',
+                sumberDana: 'Hibah Terapan DIKTI',
+                deskripsi: 'Penelitian ini merancang dan mengimplementasikan sistem Internet of Things (IoT) untuk mengoptimalkan penggunaan energi listrik pada gedung perkuliahan. Sistem ini menggunakan sensor untuk memantau konsumsi listrik dan mengontrol perangkat secara otomatis.',
+                anggota: ['Hendra Santoso, S.Si., M.Sc.', 'Dr. Ahmad Suryadi, M.Kom'],
+                luaran: [
+                    { icon: 'fa-book', text: 'Jurnal Internasional - Sensors (Q1)' },
+                    { icon: 'fa-microchip', text: 'Prototipe Sistem IoT' },
+                    { icon: 'fa-file-powerpoint', text: 'Paten Sederhana' }
+                ]
+            },
+            6: {
+                judul: 'Model Matematika untuk Optimasi Penjadwalan Perkuliahan',
+                peneliti: 'Dr. Faisal Nugroho, M.Si.',
+                tahun: '2022',
+                status: 'Selesai',
+                statusClass: 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400',
+                statusIcon: 'fa-check-circle',
+                sumberDana: 'Hibah Penelitian Fundamental',
+                deskripsi: 'Penelitian ini mengembangkan model matematika berbasis algoritma genetika untuk mengoptimalkan penjadwalan perkuliahan dengan mempertimbangkan berbagai constraint seperti ketersediaan ruangan, preferensi dosen, dan distribusi beban mengajar.',
+                anggota: ['Budi Wahyudi, S.Kom., M.Cs.'],
+                luaran: [
+                    { icon: 'fa-book', text: 'Jurnal Internasional - Applied Mathematics' },
+                    { icon: 'fa-calculator', text: 'Software Penjadwalan Otomatis' }
+                ]
+            },
+            7: {
+                judul: 'Analisis Big Data untuk Evaluasi Kurikulum Berbasis Kompetensi',
+                peneliti: 'Maya Anggraini, S.Kom., M.T.',
+                tahun: '2022',
+                status: 'Selesai',
+                statusClass: 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400',
+                statusIcon: 'fa-check-circle',
+                sumberDana: 'Dana Internal Fakultas',
+                deskripsi: 'Penelitian ini menganalisis data akademik dalam skala besar untuk mengevaluasi efektivitas kurikulum berbasis kompetensi. Menggunakan teknik data mining dan visualisasi untuk mengidentifikasi gap kompetensi dan merekomendasikan perbaikan kurikulum.',
+                anggota: ['Dr. Siti Pratiwi, S.T., M.T.', 'Rina Handayani, S.Kom., M.M.'],
+                luaran: [
+                    { icon: 'fa-book', text: 'Prosiding Konferensi Nasional' },
+                    { icon: 'fa-chart-bar', text: 'Dashboard Analitik Kurikulum' }
+                ]
+            },
+            8: {
+                judul: 'Studi Komputasi Kuantum untuk Simulasi Molekuler dalam Pengembangan Obat',
+                peneliti: 'Hendra Santoso, S.Si., M.Sc.',
+                tahun: '2022',
+                status: 'Selesai',
+                statusClass: 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400',
+                statusIcon: 'fa-check-circle',
+                sumberDana: 'Hibah Penelitian Dasar Unggulan',
+                deskripsi: 'Penelitian ini mengeksplorasi penggunaan komputasi kuantum untuk simulasi interaksi molekuler dalam proses pengembangan obat. Studi ini membandingkan efisiensi komputasi kuantum dengan metode klasik untuk kasus-kasus tertentu.',
+                anggota: ['Dr. Faisal Nugroho, M.Si.'],
+                luaran: [
+                    { icon: 'fa-book', text: 'Jurnal Internasional - Nature Computational Science' },
+                    { icon: 'fa-atom', text: 'Model Simulasi Molekuler' }
+                ]
+            },
+            9: {
+                judul: 'Pengembangan E-Learning Adaptif dengan Artificial Intelligence',
+                peneliti: 'Dr. Ahmad Suryadi, M.Kom',
+                tahun: '2021',
+                status: 'Selesai',
+                statusClass: 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400',
+                statusIcon: 'fa-check-circle',
+                sumberDana: 'Hibah Penelitian Terapan',
+                deskripsi: 'Penelitian ini mengembangkan platform e-learning adaptif yang menggunakan kecerdasan buatan untuk menyesuaikan konten pembelajaran dengan kemampuan dan gaya belajar masing-masing mahasiswa. Sistem ini mampu memberikan rekomendasi materi yang personal.',
+                anggota: ['Budi Wahyudi, S.Kom., M.Cs.', 'Maya Anggraini, S.Kom., M.T.'],
+                luaran: [
+                    { icon: 'fa-book', text: 'Jurnal Internasional - Computers & Education' },
+                    { icon: 'fa-graduation-cap', text: 'Platform E-Learning SIKAWAN' },
+                    { icon: 'fa-copyright', text: 'Hak Cipta Software' }
+                ]
+            },
+            10: {
+                judul: 'Blockchain untuk Verifikasi Ijazah dan Transkrip Nilai Digital',
+                peneliti: 'Dr. Siti Pratiwi, S.T., M.T.',
+                tahun: '2021',
+                status: 'Selesai',
+                statusClass: 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400',
+                statusIcon: 'fa-check-circle',
+                sumberDana: 'Kemenristekdikti',
+                deskripsi: 'Penelitian ini mengimplementasikan teknologi blockchain untuk sistem verifikasi ijazah dan transkrip nilai digital yang aman dan terdesentralisasi. Sistem ini memungkinkan verifikasi dokumen akademik secara instan tanpa memerlukan pihak ketiga.',
+                anggota: ['Dr. Ahmad Suryadi, M.Kom', 'Dedi Kurniawan, S.T., M.Eng.'],
+                luaran: [
+                    { icon: 'fa-book', text: 'Jurnal Internasional - Blockchain Research' },
+                    { icon: 'fa-link', text: 'Prototipe Sistem Blockchain' },
+                    { icon: 'fa-file-powerpoint', text: 'Paten' }
+                ]
+            }
+        };
+
+        // Fungsi untuk attach event listener ke tombol detail
+        function attachDetailButtonListeners() {
+            document.querySelectorAll('button[title="Detail"]').forEach((button, index) => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const row = this.closest('tr');
+                    const noCell = row.querySelector('td:first-child');
+                    const no = noCell ? parseInt(noCell.textContent.trim()) : (index + 1);
+                    openDetailModal(no);
+                });
+            });
+        }
+
+        // Fungsi untuk membuka modal detail
+        function openDetailModal(no) {
+            const modal = document.getElementById('modalDetailPenelitian');
+            const backdrop = modal.querySelector('.modal-backdrop');
+            const content = modal.querySelector('.modal-content');
+            
+            // Get data
+            const data = penelitianDetailData[no];
+            if (data) {
+                document.getElementById('detailJudul').textContent = data.judul;
+                document.getElementById('detailPeneliti').textContent = data.peneliti;
+                document.getElementById('detailTahun').textContent = data.tahun;
+                document.getElementById('detailStatus').innerHTML = `
+                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${data.statusClass}">
+                        <i class="fas ${data.statusIcon}"></i> ${data.status}
+                    </span>
+                `;
+                document.getElementById('detailSumberDana').textContent = data.sumberDana;
+                document.getElementById('detailDeskripsi').textContent = data.deskripsi;
+                
+                // Anggota Tim
+                const anggotaColors = ['bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400', 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400', 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'];
+                document.getElementById('detailAnggota').innerHTML = data.anggota.map((anggota, i) => `
+                    <span class="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium ${anggotaColors[i % anggotaColors.length]}">
+                        <i class="fas fa-user mr-2"></i> ${anggota}
+                    </span>
+                `).join('');
+                
+                // Luaran
+                document.getElementById('detailLuaran').innerHTML = data.luaran.map(luaran => `
+                    <div class="flex items-center gap-3 p-3 bg-white dark:bg-dark-card rounded-lg border border-gray-100 dark:border-gray-700">
+                        <i class="fas ${luaran.icon} text-primary"></i>
+                        <span class="text-gray-700 dark:text-gray-300">${luaran.text}</span>
+                    </div>
+                `).join('');
+            }
+            
+            // Show modal
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            // Animate in
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-0');
+                backdrop.classList.add('opacity-100');
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        // Fungsi untuk menutup modal
+        function closeDetailModal() {
+            const modal = document.getElementById('modalDetailPenelitian');
+            const backdrop = modal.querySelector('.modal-backdrop');
+            const content = modal.querySelector('.modal-content');
+            
+            // Animate out
+            backdrop.classList.remove('opacity-100');
+            backdrop.classList.add('opacity-0');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            // Hide modal after animation
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // Close modal when clicking backdrop
+        document.querySelector('#modalDetailPenelitian .modal-backdrop').addEventListener('click', closeDetailModal);
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('modalDetailPenelitian');
+                if (!modal.classList.contains('hidden')) {
+                    closeDetailModal();
+                }
+            }
         });
     </script>
 </body>
